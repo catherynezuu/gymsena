@@ -6,7 +6,6 @@ from django.forms import modelformset_factory
 from django.db import IntegrityError
 from .forms import *
 from .models import *
-from .forms import CategoriaForm
 from django.http import JsonResponse
 
 
@@ -26,7 +25,7 @@ def home(request):
             return render(request,'home.html',{'form': PrestamosForm, 'error':error}) """
         
 
-    return render(request,'home.html',{'formPrestamos': PrestamosForm, 'formDevoluciones': DevolucionesForm})
+    return render(request,'home.html',{'formPrestamos': PrestamosForm, 'formDevoluciones': DevolucionesForm, 'formRegistroUsuario': RegistroForm})
 
 def signup(request):
 
@@ -127,5 +126,49 @@ def add_categoria(request):
     else:
         return JsonResponse({'error': 'Método no permitido'}, status=405)
         
+def registro(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')  # Redirige al usuario a la página de inicio de sesión
+    else:
+        form = UserCreationForm()
+    return render(request, 'registro/home.html', {'form': form})
+
+def registro(request):
+    if request.method == 'POST':
+        print(request.POST)
+        form = RegistroForm(request.POST)
+        
+        
+    else:
+        return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+
+def registro_usuario(request):
+    if request.method == 'GET':
+        return render(request, 'usuarios.html', {'form': RegistroUsuarioForm})
+    
+    else:
+        print(request.POST)
+        form = RegistroForm(request.POST)
+        if form.is_valid():
+            cedula_usuario = form.cleaned_data['cedula']
+        
+            if Usuarios.objects.filter(cedula=cedula_usuario).exists():
+                data = {'success': False, 'message': 'el usuario ya existe'}
+                return JsonResponse(data, status=400)
+            else:
+                usuario = form.save()
+                data = {'success': True, 'message': 'usuario agregado correctamente'}
+                return JsonResponse(data)
+        else:
+            data = {'success': False, 'errors': form.errors}
+            return JsonResponse(data, status=400)
+
 
         
+        
+    
+

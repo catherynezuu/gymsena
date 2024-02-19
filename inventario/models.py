@@ -16,17 +16,17 @@ class Inventario(models.Model):
     def __str__(self):
         return self.codigo
 
-class Usuario(models.Model): 
+class Usuarios(models.Model): 
     cedula=models.IntegerField()
     nombre=models.CharField(max_length=100)
 
     def __str__(self):
-        return self.cedula
+        return self.nombre
 
     
 class Prestamos(models.Model):
     id_inventario=models.ForeignKey(Inventario,on_delete=models.CASCADE)
-    id_usuario=models.ForeignKey(Usuario,on_delete=models.CASCADE)
+    id_usuario=models.ForeignKey(Usuarios,on_delete=models.CASCADE)
     fecha_prestamo=models.DateTimeField(auto_now_add=True)
     fecha_devolucion=models.DateTimeField(null=True, blank=True)
 

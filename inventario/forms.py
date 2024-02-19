@@ -19,4 +19,7 @@ class CategoriaForm(ModelForm):
         model = Categoria
         fields = ['nombre']
 
-
+class RegistroForm(ModelForm):
+    class Meta:
+        model= Usuarios
+        fields=['cedula','nombre']

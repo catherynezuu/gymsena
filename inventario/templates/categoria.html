@@ -1,7 +1,7 @@
 {% block content %}
 {% load static %}
 
-<button type="button" id="abrirModalAgregarCategoria">Agregar Categoría</button>
+<button type="button" id="abrirModal">Agregar Categoría</button>
 
 <table>
     <tbody>
@@ -16,7 +16,7 @@
 </table>
 
 
-<div id="modalAgregarCategoria" class="modal">
+<div id="modal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2>Agregar Categoría</h2>
@@ -33,6 +33,31 @@
 
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var modal = document.getElementById('modal');
+    var abrirModal = document.getElementById('abrirModal');
+    var cerrarModal = document.getElementsByClassName('close')[0];
+
+    abrirModal.onclick = function() {
+        modal.style.display = 'block';
+    }
+
+    cerrarModal.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    function ShowAlert(){
+        ShowAlert("Alerta");
+    }
+});
+
+
 $(document).ready(function() {
     let modal_form = $('#form_agregar_categoria');
 
