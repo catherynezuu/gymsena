@@ -16,7 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from inventario import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.home, name='home'),
+    path('logout/', views.signout, name='logout'),
+    path('signin/', views.signin, name='signin'),
+    path('inventario/', views.inventario, name='inventario'),
+    path('categoria/', views.categoria, name='categoria'),
+    path('agregar_categoria', views.add_categoria, name='agregar_categoria')
 ]

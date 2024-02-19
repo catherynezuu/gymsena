@@ -1,0 +1,37 @@
+{% block content %}
+{% load static %}
+{{error}}
+
+<form id="prestamos_form" action="" method="post">
+    {%csrf_token %}
+    {{formPrestamos}}
+
+    <button type="submit">
+        enviar
+    </button>
+</form>
+
+<form id="devoluciones_form" action="" method="post">
+    {%csrf_token %}
+    {{formDevoluciones}}
+
+    <button type="submit">
+        devolver
+    </button>
+</form>
+
+<script>
+    document.getElementById('prestamos_form').addEventListener('keypress', function (event) {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+        }
+    });
+    document.getElementById('devoluciones_form').addEventListener('keypress', function (event) {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+        }
+    });
+</script>
+
+<script src="{% static 'scripts.js' %}"></script>
+{% endblock %}

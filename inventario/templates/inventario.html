@@ -1,0 +1,15 @@
+{% block content %}
+{{error}}
+
+<form id="reg_inventario_form" action="" method="post">
+    {%csrf_token %}
+    {{formreg_inventario}}
+
+    <button type="submit">
+        añadir
+    </button>
+</form>
+<div class="modal fade" id="edicion" role="dialog">
+
+</div>
+{% endblock %}
