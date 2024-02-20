@@ -1,0 +1,44 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+
+<main id="categorias_main">
+  <section id="categorias_section_top">
+    <button type="button" id="abrir_modal">Agregar Categoría</button>
+  </section>
+  <section id="categorias_section_main">
+    <div class="table_container">
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Actualizar</th>
+            <th>Eliminar</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in items %}
+          <tr>
+            <td>{{row.nombre}}</td>
+            <td><button type="button" class="table_update_button">Actualizar</button></td>
+            <td><button type="button" class="table_delete_button">Eliminar</button></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<div id="categorias_modal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Agregar Categoría</h2>
+    <form method="post" id="form_agregar_categoria">
+      {% csrf_token %} {{ form }}
+      <button type="submit">Guardar</button>
+    </form>
+  </div>
+</div>
+
+<script src="{% static 'categorias.js' %}"></script>
+
+{% endblock %}

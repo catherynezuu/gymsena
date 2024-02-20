@@ -1,112 +1,58 @@
-{% block content %}
-{% load static %}
-{{error}}
+{% extends "base.html" %} {% load static %} {% block content %}
+<main id="home_main">
+<section id="home_section_forms">
+    <div>
+      <form id="prestamos_form" action="" method="post">
+        {%csrf_token %} {{formPrestamos}}
 
-
-<form id="prestamos_form" action="" method="post">
-    {%csrf_token %}
-    {{formPrestamos}}
-
-    <button type="submit">
-        enviar
-    </button>
-</form>
-
-<form id="devoluciones_form" action="" method="post">
-    {%csrf_token %}
-    {{formDevoluciones}}
-
-    <button type="submit">
-        devolver
-    </button>
-</form>
-
-<script>
-    document.getElementById('prestamos_form').addEventListener('keypress', function (event) {
-        if (event.keyCode == 13) {
-            event.preventDefault();
-        }
-    });
-    document.getElementById('devoluciones_form').addEventListener('keypress', function (event) {
-        if (event.keyCode == 13) {
-            event.preventDefault();
-        }
-    });
-</script>
-
-<script src="{% static 'scripts.js' %}"></script>
-
-<button type="myBtn" id="abrirModal">Agregar usuario</button>
-
-
-<div id="modal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Registro de usuarios</h2>
-        <form method="POST" action="" id="form_registro_usuarios">
-            {% csrf_token %}
-            {{ formRegistroUsuario }}
-            <button type="submit">registrar</button>
-        </form>
+        <button type="submit">enviar</button>
+      </form>
     </div>
+    <div>
+      <form id="devoluciones_form" action="" method="post">
+        {%csrf_token %} {{formDevoluciones}}
+
+        <button type="submit">devolver</button>
+      </form>
+    </div>
+    <div>
+      <button type="button" id="abrir_modal">Agregar usuario</button>
+    </div>
+</section>
+
+  <section>
+    <div class="table_container">
+      <table>
+        <thead>
+          <tr>
+            <td>Nombre</td>
+            <td>categoría</td>
+          </tr>
+        </thead>
+        <tbody>
+          {% for elemento in inventario %}
+          <tr>
+            <td>{{ elemento.nombre }}</td>
+            <td>{{ elemento.categoria }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </article>
+  </section>
+</main>
+
+<div id="home_modal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Registro de usuarios</h2>
+    <form method="POST" action="" id="form_registro_usuarios">
+      {% csrf_token %} {{ formRegistroUsuario }}
+      <button type="submit">Registrar</button>
+    </form>
+  </div>
 </div>
 
-<script src="{% static 'jquery.js' %}"></script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    var modal = document.getElementById('modal');
-    var abrirModal = document.getElementById('abrirModal');
-    var cerrarModal = document.getElementsByClassName('close')[0];
-
-    abrirModal.onclick = function() {
-        modal.style.display = 'block';
-    }
-
-    cerrarModal.onclick = function() {
-        modal.style.display = 'none';
-    }
-
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = 'none';
-        }
-    }
-
-    function ShowAlert(){
-        ShowAlert("Alerta");
-    }
-});
-
-$(document).ready(function() {
-    let modal_form = $('#form_registro_usuarios');
-
-    modal_form.submit(function(e) {
-        e.preventDefault();
-        AddUser();
-    });
-
-    function AddUser() {
-        let data_string = modal_form.serialize();// Serializa los datos del formulario
-        $.ajax({
-            type: "POST",
-            url: "{% url 'registro_usuario' %}",
-            data: data_string,
-            success: function(response) {
-                if (response.success) {
-                    alert(response.message); // Muestra el mensaje de éxito
-                    location.reload(); // Recarga la página después de agregar la categoría
-                } else {
-                    alert(response.message); // Muestra el mensaje de error
-                }
-            },
-            error: function(xhr, errmsg, err) {
-                console.log(xhr.status + ": " + xhr.responseText); 
-                alert('No se puede agregar, elemento ya existente');
-            }
-        });
-    }
-});
-</script>
+<script src="{% static 'home.js' %}"></script>
 
 {% endblock %}

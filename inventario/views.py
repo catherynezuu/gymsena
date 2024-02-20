@@ -24,8 +24,9 @@ def home(request):
             error = "Objeto no encontrado en el inventario"
             return render(request,'home.html',{'form': PrestamosForm, 'error':error}) """
         
+    inventario_info = Inventario.objects.all(); 
 
-    return render(request,'home.html',{'formPrestamos': PrestamosForm, 'formDevoluciones': DevolucionesForm, 'formRegistroUsuario': RegistroForm})
+    return render(request,'home.html',{'formPrestamos': PrestamosForm, 'formDevoluciones': DevolucionesForm, 'formRegistroUsuario': RegistroForm, 'inventario': inventario_info})
 
 def signup(request):
 
@@ -35,7 +36,7 @@ def signup(request):
     else:
         if request.POST['password1']== request.POST['password2']:
             try:
-                user =   User.objects.create_user(username=request.POST['username'],password=request.POST['password1'])
+                user = User.objects.create_user(username=request.POST['username'],password=request.POST['password1'])
                 user.save()
                 login(request, user)
                 return redirect('tasks')
@@ -101,11 +102,11 @@ def inventario(request):
 
     return render(request, 'inventario.html', {'formreg_inventario': reg_inventarioForm })
 
-def categoria(request):
+def categorias(request):
     form = CategoriaForm()
     list_items = Categoria.objects.all()
 
-    return render(request, 'categoria.html', {'form': form, 'items': list_items})
+    return render(request, 'categorias.html', {'form': form, 'items': list_items})
 
 def add_categoria(request):
     if request.method == 'POST':

@@ -1,0 +1,292 @@
+:root {
+  --primary: rgb(4, 202, 86);
+  --gray-main: rgb(128, 128, 128);
+  --gray-secondary: rgb(225, 224, 224);
+  --red-main: rgb(255, 0, 76);
+}
+
+html {
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  max-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+main {
+  width: 100%;
+  height: 90vh;
+}
+
+/* HEADER */
+
+header {
+  height: 10vh;
+  background-color: var(--primary);
+  display: flex;
+  justify-content: space-between;
+  padding-inline: 3em;
+}
+
+header h1 {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+header nav {
+  display: flex;
+}
+
+header nav ul {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 30px;
+  list-style: none;
+}
+
+header nav ul a {
+  display: block;
+  text-align: center;
+  color: white;
+  text-decoration: none;
+  font-size: larger;
+  border: 1px solid white;
+  padding: 10px;
+  width: 100px;
+  border-radius: 5px;
+}
+
+/* END HEADER */
+
+/* MODAL */
+
+.modal {
+  display: none;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.34);
+  z-index: 10;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  width: 600px;
+  max-width: 100%;
+  height: 300px;
+  min-height: 300px;
+  position: relative;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-content > h2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content > form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100%;
+}
+
+.modal-content > form {
+  font-size: larger;
+}
+
+.modal-content > form div {
+  display: flex;
+  gap: 25px;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content > form input {
+  font-size: large;
+  height: 30px;
+  border: 2px solid var(--gray-main);
+  border-radius: 5px;
+}
+
+.modal-content > form > button {
+  height: 50px;
+  width: 150px;
+  font-size: large;
+  background-color: var(--primary);
+  border-radius: 5px;
+  border: 2px solid var(--gray-main);
+  color: white;
+}
+
+.close {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  height: 30px;
+  aspect-ratio: 1/1;
+  border-radius: 5px;
+  top: 10px;
+  left: 10px;
+  background-color: var(--red-main);
+  font-size: 25px;
+  color: white;
+}
+
+/* END MODAL */
+
+/* TABLE */
+
+.table_container {
+  max-height: 700px;
+  border: 5px solid var(--gray-main);
+  border-radius: 10px;
+  overflow-y: scroll;
+}
+
+table {
+  height: 70%;
+  padding: 1em;
+  min-width: 300px;
+  max-width: 100%;
+  max-height: 600px;
+}
+
+table thead {
+  position: sticky;
+  top: 0;
+  background: white;
+}
+
+table tbody {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 700px;
+  max-width: 100%;
+  text-transform: capitalize;
+}
+
+table tr {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+table th {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+table td {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+table td:not(:last-child) {
+  border-right: 1px solid var(--gray-main);
+}
+
+table tbody tr:nth-child(even) {
+  background-color: var(--gray-secondary);
+}
+
+table tbody tr:hover,
+table tbody tr:nth-child(even):hover {
+  background-color: var(--primary);
+}
+
+table button {
+  width: 70%;
+  height: 65%;
+  border: none;
+  color: white;
+  border-radius: 5px;
+}
+
+.table_update_button {
+  background-color: var(--gray-main);
+}
+
+.table_delete_button {
+  background-color: var(--red-main);
+}
+
+/* END TABLE */
+
+/* HOME */
+
+#home_main {
+  display: flex;
+}
+
+#home_main > * {
+  width: 50%;
+}
+
+#home_section_forms {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+#home_section_forms > section {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* END HOME */
+
+/* CATEGORIAS */
+
+#categorias_section_top {
+  height: 10vh;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding-inline: 5em;
+}
+#categorias_section_top button {
+  height: 50px;
+  width: 150px;
+  font-size: large;
+  background-color: var(--primary);
+  border-radius: 5px;
+  border: 2px solid var(--gray-main);
+  color: white;
+}
+
+#categorias_section_main {
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: top;
+}
+
+/* END CATEGORIAS */

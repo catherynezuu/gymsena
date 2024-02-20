@@ -1,5 +1,4 @@
-{% block content %}
-{{error}}
+{% extends "base.html" %} {% load static %} {% block content %}
 
 <form id="reg_inventario_form" action="" method="post">
     {%csrf_token %}
