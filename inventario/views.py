@@ -92,8 +92,6 @@ def signin(request):
             login(request, user)
             return redirect('home')
         
-#registrar inventario
-        
 def inventario(request):
     if request.method =='POST':
         form = reg_inventarioForm(request.POST)
@@ -108,48 +106,53 @@ def categorias(request):
 
     return render(request, 'categorias.html', {'form': form, 'items': list_items})
 
-def add_categoria(request):
+def agregar_categoria(request):
     if request.method == 'POST':
         form = CategoriaForm(request.POST)
-        if form.is_valid():
-            nombre_categoria = form.cleaned_data['nombre']
-            
-            if Categoria.objects.filter(nombre__iexact=nombre_categoria).exists():
-                data = {'success': False, 'message': 'La categoría ya existe'}
-                return JsonResponse(data, status=400)
-            else:
-                categoria = form.save()
-                data = {'success': True, 'message': 'Categoría agregada correctamente'}
-                return JsonResponse(data)
-        else:
-            data = {'success': False, 'errors': form.errors}
+
+        if not form.is_valid():
+            data = {'success': False, 'error': form.errors}
             return JsonResponse(data, status=400)
+
+        nombre_categoria = form.cleaned_data['nombre'].lower()
+
+        if nombre_categoria.isnumeric():
+            data = {'success': False, 'message': 'Nombre inválido, no se permiten números'}
+            return JsonResponse(data, status=400)
+            
+        if Categoria.objects.filter(nombre__iexact=nombre_categoria).exists():
+            data = {'success': False, 'message': 'La categoría ya existe'}
+            return JsonResponse(data, status=400)
+        else:
+            categoria = form.save()
+            data = {'success': True, 'message': 'Categoría agregada correctamente'}
+            return JsonResponse(data)
     else:
         return JsonResponse({'error': 'Método no permitido'}, status=405)
-        
-def registro(request):
+    
+def eliminar_categoria(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('home')  # Redirige al usuario a la página de inicio de sesión
-    else:
-        form = UserCreationForm()
-    return render(request, 'registro/home.html', {'form': form})
+        registro_id = request.POST.get('id')
 
-def registro(request):
+        try:
+            registro = Categoria.objects.get(pk=registro_id)
+            registro.delete()
+        
+        except:
+            pass
+
+    return redirect('categorias')
+
+def actualizar_categoria(request):
     if request.method == 'POST':
-        print(request.POST)
-        form = RegistroForm(request.POST)
         
-        
-    else:
-        return JsonResponse({'error': 'Método no permitido'}, status=405)
 
+            
+            
 
 def registro_usuario(request):
     if request.method == 'GET':
-        return render(request, 'usuarios.html', {'form': RegistroUsuarioForm})
+        return render(request, 'usuarios.html', {'form': RegistroForm})
     
     else:
         print(request.POST)

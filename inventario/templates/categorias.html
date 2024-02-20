@@ -18,8 +18,18 @@
           {% for row in items %}
           <tr>
             <td>{{row.nombre}}</td>
-            <td><button type="button" class="table_update_button">Actualizar</button></td>
-            <td><button type="button" class="table_delete_button">Eliminar</button></td>
+            <td>
+              <button type="button" class="table_update_button">
+                Actualizar
+              </button>
+            </td>
+            <td>
+              <form id="eliminar-form-{{ row.id }}" action="{% url 'eliminar_categoria' %}" method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="id" value="{{ row.id }}">
+                  <button type="button" class="table_delete_button" data-registro-id="{{ row.id }}">Eliminar</button>
+              </form>
+            </td>
           </tr>
           {% endfor %}
         </tbody>
@@ -28,16 +38,31 @@
   </section>
 </main>
 
-<div id="categorias_modal" class="modal">
+<div class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
     <h2>Agregar Categoría</h2>
-    <form method="post" id="form_agregar_categoria">
+    <form method="POST" id="form_agregar_categoria">
       {% csrf_token %} {{ form }}
       <button type="submit">Guardar</button>
     </form>
   </div>
 </div>
+
+<div id="modal-confirmacion" class="modal">
+  <div class="modal-content">
+    <h2>¿Seguro de que desea eliminar la categoría?</h2>
+    <div class="modal-buttons-row">
+      <a href="">Cancelar</a>
+      <button id="confirmar-eliminacion-btn">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const agregarCategoriaURL = "{% url 'agregar_categoria' %}";
+
+</script>
 
 <script src="{% static 'categorias.js' %}"></script>
 

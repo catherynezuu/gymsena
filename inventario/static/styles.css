@@ -89,12 +89,50 @@ header nav ul a {
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .modal-content > h2 {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.modal-buttons-row {
+  display: flex;
+  align-self: center;
+  justify-content: space-evenly;
+  height: 60px;
+  width: 100%;
+  padding-bottom: 2em;
+}
+
+.modal-buttons-row > button {
+  height: 50px;
+  width: 150px;
+  font-size: large;
+  border-radius: 5px;
+  border: 2px solid var(--gray-main);
+  color: white;
+  padding: 0;
+}
+
+.modal-buttons-row > a {
+  height: 46px;
+  width: 146px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: large;
+  background-color: var(--primary);
+  border-radius: 5px;
+  border: 2px solid var(--gray-main);
+  color: white;
+  text-decoration: none;
+}
+
+#confirmar-eliminacion-btn {
+  background-color: var(--red-main);  
 }
 
 .modal-content > form {
@@ -224,6 +262,14 @@ table button {
   border: none;
   color: white;
   border-radius: 5px;
+}
+
+table form {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .table_update_button {

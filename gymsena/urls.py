@@ -25,7 +25,7 @@ urlpatterns = [
     path('signin/', views.signin, name='signin'),
     path('inventario/', views.inventario, name='inventario'),
     path('categorias/', views.categorias, name='categorias'),
-    path('agregar_categoria/', views.add_categoria, name='agregar_categoria'),
+    path('agregar_categoria/', views.agregar_categoria, name='agregar_categoria'),
     path('registro_usuario/', views.registro_usuario, name='registro_usuario'),
-    
+    path('eliminar_categoria/', views.eliminar_categoria, name='eliminar_categoria'),
 ]
