@@ -11,10 +11,18 @@
     <script src="{% static 'jquery.js' %}"></script>
 </head>
 <body> 
-        {% include "header.html" %}
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="message-element message-{{ message.tags }}"{% endif %}><p>{{ message }}</p></li>
+        {% endfor %}
+    </ul>
+{% endif %}
 
-        {% block content %}
-        {% endblock %}
+    {% include "header.html" %}
+
+    {% block content %}
+    {% endblock %}
 
 </body>
 </html>

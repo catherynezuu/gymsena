@@ -1,8 +1,10 @@
 :root {
-  --primary: rgb(4, 202, 86);
-  --gray-main: rgb(128, 128, 128);
-  --gray-secondary: rgb(225, 224, 224);
-  --red-main: rgb(255, 0, 76);
+  --green-primary: #2cdf62;
+  --green-secondary: #00CA76;
+  --gray-primary: #aaaaaa;
+  --gray-secondary: #e1e0e0;
+  --red-primary: #F52600;
+
 }
 
 html {
@@ -25,7 +27,7 @@ main {
 
 header {
   height: 10vh;
-  background-color: var(--primary);
+  background-color: var(--green-primary);
   display: flex;
   justify-content: space-between;
   padding-inline: 3em;
@@ -64,6 +66,42 @@ header nav ul a {
 
 /* END HEADER */
 
+/* MESSAGES */
+
+.messages{
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  position: absolute;
+  width: 400px;
+  max-width: 90%;
+  bottom: 20px;
+  left: 20;
+}
+
+.message-element{
+  height: 2.5em;
+  width: 100%;
+  border-radius: 3px;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding-inline: 1em;
+  list-style-type: none;
+}
+
+.message-success{
+  background-color: var(--green-secondary);
+}
+
+.message-error{
+  background-color: var(--red-primary);
+}
+
+/* END MESSAGES */
+
 /* MODAL */
 
 .modal {
@@ -74,7 +112,7 @@ header nav ul a {
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.34);
-  z-index: 10;
+  z-index: 5;
   justify-content: center;
   align-items: center;
 }
@@ -112,7 +150,7 @@ header nav ul a {
   width: 150px;
   font-size: large;
   border-radius: 5px;
-  border: 2px solid var(--gray-main);
+  border: 2px solid var(--gray-primary);
   color: white;
   padding: 0;
 }
@@ -124,15 +162,15 @@ header nav ul a {
   justify-content: center;
   align-items: center;
   font-size: large;
-  background-color: var(--primary);
+  background-color: var(--green-primary);
   border-radius: 5px;
-  border: 2px solid var(--gray-main);
+  border: 2px solid var(--gray-primary);
   color: white;
   text-decoration: none;
 }
 
 #confirmar-eliminacion-btn {
-  background-color: var(--red-main);  
+  background-color: var(--red-primary);  
 }
 
 .modal-content > form {
@@ -157,7 +195,7 @@ header nav ul a {
 .modal-content > form input {
   font-size: large;
   height: 30px;
-  border: 2px solid var(--gray-main);
+  border: 2px solid var(--gray-primary);
   border-radius: 5px;
 }
 
@@ -165,9 +203,9 @@ header nav ul a {
   height: 50px;
   width: 150px;
   font-size: large;
-  background-color: var(--primary);
+  background-color: var(--green-primary);
   border-radius: 5px;
-  border: 2px solid var(--gray-main);
+  border: 2px solid var(--gray-primary);
   color: white;
 }
 
@@ -181,7 +219,7 @@ header nav ul a {
   border-radius: 5px;
   top: 10px;
   left: 10px;
-  background-color: var(--red-main);
+  background-color: var(--red-primary);
   font-size: 25px;
   color: white;
 }
@@ -192,7 +230,7 @@ header nav ul a {
 
 .table_container {
   max-height: 700px;
-  border: 5px solid var(--gray-main);
+  border: 5px solid var(--gray-primary);
   border-radius: 10px;
   overflow-y: scroll;
 }
@@ -233,6 +271,7 @@ table th {
   display: flex;
   align-items: center;
   justify-content: center;
+  text-overflow: ellipsis;
 }
 
 table td {
@@ -244,7 +283,7 @@ table td {
 }
 
 table td:not(:last-child) {
-  border-right: 1px solid var(--gray-main);
+  border-right: 1px solid var(--gray-primary);
 }
 
 table tbody tr:nth-child(even) {
@@ -253,7 +292,7 @@ table tbody tr:nth-child(even) {
 
 table tbody tr:hover,
 table tbody tr:nth-child(even):hover {
-  background-color: var(--primary);
+  background-color: var(--green-primary);
 }
 
 table button {
@@ -273,11 +312,11 @@ table form {
 }
 
 .table_update_button {
-  background-color: var(--gray-main);
+  background-color: var(--gray-primary);
 }
 
 .table_delete_button {
-  background-color: var(--red-main);
+  background-color: var(--red-primary);
 }
 
 /* END TABLE */
@@ -322,9 +361,9 @@ table form {
   height: 50px;
   width: 150px;
   font-size: large;
-  background-color: var(--primary);
+  background-color: var(--green-primary);
   border-radius: 5px;
-  border: 2px solid var(--gray-main);
+  border: 2px solid var(--gray-primary);
   color: white;
 }
 

@@ -14,10 +14,14 @@ class reg_inventarioForm(ModelForm):
         model=Inventario
         fields=['codigo', 'nombre', 'categoria']
 
-class CategoriaForm(ModelForm):
+class AgregarCategoriaForm(ModelForm):
     class Meta:
         model = Categoria
         fields = ['nombre']
+
+class ActualizarCategoriaForm(forms.Form):
+    id = IntegerField(min_value= 1, widget = HiddenInput())
+    nombre = CharField(label='Nombre', max_length=100, min_length=2)
 
 class RegistroForm(ModelForm):
     class Meta:

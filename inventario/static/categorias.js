@@ -1,49 +1,49 @@
-$(document).ready(function () {
+document.addEventListener("DOMContentLoaded", function () {
+  const abrirModal = document.getElementById("abrir_modal");
 
-  let modal_form = $("#form_agregar_categoria");
+  abrirModal.addEventListener('click', function(){
+    document.getElementById('modal-agregar').style.display = "flex";
+  })
 
-  modal_form.submit(function (e) {
-    e.preventDefault();
-    AddCategory();
+  var updateButtons = document.querySelectorAll(".table_update_button");
+
+  updateButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+      var row = this.closest('tr');
+      var id = parseInt(row.getAttribute("data-registro-id"));
+      var nombre = row.querySelector('td:first-child').textContent.trim();
+
+      var idInput = document.querySelector('#form_actualizar_categoria input[name="id"]');
+      var nombreInput = document.querySelector('#form_actualizar_categoria input[name="nombre"]');
+
+      idInput.setAttribute('value', id);
+      nombreInput.setAttribute('value', nombre);
+
+      document.getElementById("modal-actualizar").style.display = "flex";
+    });
   });
 
-  function AddCategory() {
-    let data_string = modal_form.serialize();
-    $.ajax({
-      type: "POST",
-      url: agregarCategoriaURL,
-      data: data_string,
-      success: function (response) {
-        if (response.success) {
-          alert(response.message);
-          location.reload();
-        } else {
-          alert(response.message);
-        }
-      },
-      error: function (xhr, errmsg, err) {
-        console.log(xhr.status + ": " + xhr.responseText);
-        alert(errmsg);
-      },
-    });
-  }
+  const modalConfirmacion = document.getElementById("modal-confirmacion");
+  const confirmarEliminacionBtn = document.getElementById(
+    "confirmar-eliminacion-btn"
+  );
+  const eliminarBtns = document.querySelectorAll(".table_delete_button");
 
+  eliminarBtns.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var row = this.closest('tr');
+      var registroId = row.getAttribute("data-registro-id");
+      const eliminarForm = document.getElementById(
+        "eliminar-form-" + registroId
+      );
 
-  const modalConfirmacion = document.getElementById('modal-confirmacion')
-  const confirmarEliminacionBtn = document.getElementById('confirmar-eliminacion-btn')
-  const eliminarBtns = document.querySelectorAll('.table_delete_button')
+      modalConfirmacion.style.display = "flex";
 
-  eliminarBtns.forEach(function(btn){
-    btn.addEventListener('click', function(){
-      const registroId = this.getAttribute('data-registro-id')
-      const eliminarForm = document.getElementById('eliminar-form-' + registroId)
-
-      modalConfirmacion.style.display = 'flex'
-
-      confirmarEliminacionBtn.onclick = function(){
+      confirmarEliminacionBtn.onclick = function () {
         eliminarForm.submit();
-        modalConfirmacion.style.display = 'none'
+        modalConfirmacion.style.display = "none";
       };
-    })
-  })
+    });
+  });
 });
+

@@ -16,7 +16,7 @@
         </thead>
         <tbody>
           {% for row in items %}
-          <tr>
+          <tr data-registro-id="{{ row.id }}">
             <td>{{row.nombre}}</td>
             <td>
               <button type="button" class="table_update_button">
@@ -27,7 +27,7 @@
               <form id="eliminar-form-{{ row.id }}" action="{% url 'eliminar_categoria' %}" method="post">
                   {% csrf_token %}
                   <input type="hidden" name="id" value="{{ row.id }}">
-                  <button type="button" class="table_delete_button" data-registro-id="{{ row.id }}">Eliminar</button>
+                  <button type="button" class="table_delete_button">Eliminar</button>
               </form>
             </td>
           </tr>
@@ -38,12 +38,24 @@
   </section>
 </main>
 
-<div class="modal">
+<div id="modal-agregar" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
     <h2>Agregar Categoría</h2>
-    <form method="POST" id="form_agregar_categoria">
-      {% csrf_token %} {{ form }}
+    <form method="POST" action="{% url 'agregar_categoria' %}" id="form_agregar_categoria">
+      {% csrf_token %} {{ form_agregar }}
+      <button type="submit">Guardar</button>
+    </form>
+  </div>
+</div>
+
+<div id="modal-actualizar" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Actualizar Categoría</h2>
+    <form method="POST" action="{% url 'actualizar_categoria' %}" id="form_actualizar_categoria">
+      {% csrf_token %} 
+      {{ form_actualizar }}
       <button type="submit">Guardar</button>
     </form>
   </div>
