@@ -12,26 +12,11 @@ from django.http import JsonResponse
 
 # Create your views here.
 def home(request):
-    if request.method == 'POST':
-        """ try:
-            usuario=Usuario.objects.get(cedula=request.POST['cedula_usuario'])
-        except:
-            error="usuario no encontrado"
-            return render(request,'home.html',{'form': PrestamosForm, 'error':error})
-
-        try:
-            codigo_inventario = Inventario.objects.get(codigo=request.POST["codigo_inventario"])
-        except:
-            error = "Objeto no encontrado en el inventario"
-            return render(request,'home.html',{'form': PrestamosForm, 'error':error}) """
-
     inventario_info = Inventario.objects.all()
-
     return render(request, 'home.html', {'formPrestamos': PrestamosForm, 'formDevoluciones': DevolucionesForm, 'formRegistroUsuario': RegistroForm, 'inventario': inventario_info})
 
 
 def signup(request):
-
     if request.method == 'GET':
         return render(request, 'signup.html', {'form': UserCreationForm
                                                })
@@ -52,29 +37,6 @@ def signup(request):
 
     return render(request, 'signup.html', {'form': UserCreationForm, "error": 'contraseña incorrecta'
                                            })
-
-
-""" def task(request):
-    
-    if request.method == 'GET':
-        Task=tasks.objects.filter(User=request.user)     
-        return render(request,'tasks.html', {
-            'tasks':Task, 'form':TaskForm
-        })
-
-def create_task(request):
-
-    if request.method =='GET':
-        return render(request,'create_tasks.html',{
-           'form':TaskForm
-    })
-    else:
-        form=TaskForm(request.POST)
-        N_tarea=form.save(commit=False)
-        N_tarea.user= request.user
-        N_tarea.save()
-        print(N_tarea)
-        return redirect('home') """
 
 # cerrar sesion
 
@@ -100,15 +62,6 @@ def signin(request):
             return redirect('home')
 
 
-def inventario(request):
-    if request.method == 'POST':
-        form = reg_inventarioForm(request.POST)
-        form.save()
-        return render(request, 'inventario.html', {'formreg_inventario': reg_inventarioForm})
-
-    return render(request, 'inventario.html', {'formreg_inventario': reg_inventarioForm})
-
-
 def categorias(request):
     form_agregar = AgregarCategoriaForm()
     form_actualizar = ActualizarCategoriaForm()
@@ -132,8 +85,8 @@ def agregar_categoria(request):
 
     nombre_categoria = form.cleaned_data['nombre'].lower()
 
-    if nombre_categoria.isnumeric():
-        messages.error(request, 'Nombre inválido, no se permiten solo números')
+    if any(map(str.isdigit, nombre_categoria)):
+        messages.error(request, 'Nombre inválido, no se permiten números')
         return redirect('categorias')
 
     if Categoria.objects.filter(nombre__iexact=nombre_categoria).exists():
@@ -141,7 +94,7 @@ def agregar_categoria(request):
         return redirect('categorias')
     else:
         form.save()
-        messages.success(request, 'categoria agregada correctamnete')
+        messages.success(request, 'Categoria agregada correctamnete')
         return redirect('categorias')
 
 
@@ -161,34 +114,35 @@ def actualizar_categoria(request):
     id_categoria = form.cleaned_data['id']
     nombre_categoria = form.cleaned_data['nombre'].lower()
 
-    if nombre_categoria.isnumeric():
-        messages.error(request, 'Nombre inválido, no se permiten solo números')
+    if any(map(str.isdigit, nombre_categoria)):
+        messages.error(request, 'Nombre inválido, no se permiten números')
         return redirect('categorias')
 
     try:
         Categoria.objects.get(id=id_categoria)
     except Categoria.DoesNotExist:
-        messages.error(request, 'Error, no se encontró el elemento')
+        messages.error(request, 'Error, no se encontró la categoría')
         return redirect('categorias')
 
     try:
         registro = Categoria.objects.get(id=id_categoria)
         registro.nombre = nombre_categoria
         registro.save()
-        messages.success(request, 'categoria actualizada correctamnete')
+        messages.success(request, 'Categoria actualizada correctamnete')
         return redirect('categorias')
     except:
         messages.error(request, 'Ha ocurrido un error inesperado')
         return redirect('categorias')
+
 
 def eliminar_categoria(request):
     if request.method == 'POST':
         registro_id = request.POST.get('id')
 
         try:
-            registro = Categoria.objects.get(pk=registro_id)
+            registro = Categoria.objects.get(id=registro_id)
             registro.delete()
-            messages.success(request, 'categoria eliminada correctamnete')
+            messages.success(request, 'Categoria eliminada correctamnete')
             return redirect('categorias')
 
         except:
@@ -219,3 +173,103 @@ def registro_usuario(request):
         else:
             data = {'success': False, 'errors': form.errors}
             return JsonResponse(data, status=400)
+
+
+def inventario(request):
+    inventario_info = Inventario.objects.all()
+    return render(request, 'inventario.html',
+                  {'form_agregar': AgregarInventarioForm, 'form_actualizar': ActualizarInventarioForm,
+                   'inventario': inventario_info})
+
+
+def agregar_inventario(request):
+    if not request.method == 'POST':
+        messages.error(request, 'Método inválido')
+        return redirect('inventario')
+
+    form = AgregarInventarioForm(request.POST)
+
+    if not form.is_valid():
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(request, f'{field}: {error}')
+        return redirect('inventario')
+
+    nombre_inventario = form.cleaned_data['nombre'].lower()
+    codigo_inventario = form.cleaned_data['codigo']   
+
+    if nombre_inventario.isnumeric():
+        messages.error(
+            request, 'Nombre inválido, no se permiten solamente números')
+        return redirect('inventario')
+
+    if Inventario.objects.filter(nombre__iexact=nombre_inventario).exists():
+        messages.error(request, 'No se puede agregar, elemento ya existente')
+        return redirect('inventario')
+
+    if Inventario.objects.filter(codigo=codigo_inventario).exists():
+        messages.error(request, 'No se puede agregar, código ya existente')
+        return redirect('inventario')
+
+    form.save()
+    messages.success(request, 'Elemento agregado correctamente')
+    return redirect('inventario')
+
+
+def actualizar_inventario(request):
+    if not request.method == 'POST':
+        messages.error(request, 'Método inválido')
+        return redirect('inventario')
+    
+    form = ActualizarInventarioForm(request.POST)
+
+    if not form.is_valid():
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(request, f'{field}: {error}')
+        return redirect('inventario')
+    
+    id_inventario = form.cleaned_data["id"]
+    nombre_inventario = form.cleaned_data["nombre"].lower()
+    codigo_inventario = form.cleaned_data["codigo"]
+    categoria = form.cleaned_data["categoria"]
+
+    if nombre_inventario.isnumeric():
+        messages.error(
+            request, 'Nombre inválido, no se permiten solamente números')
+        return redirect('inventario')
+    
+    try:
+        Inventario.objects.get(id=id_inventario)
+    except:
+        messages.error(request, 'Error, no se encontró el elemento')
+        return redirect('inventario')
+
+    try:
+        registro = Inventario.objects.get(id=id_inventario)
+        registro.nombre = nombre_inventario
+        registro.codigo = codigo_inventario
+        registro.categoria = categoria
+        registro.save()
+        messages.success(request, 'Elemento actualizado correctamnete')
+        return redirect('inventario')
+    except:
+        messages.error(request, 'Ha ocurrido un error inesperado')
+        return redirect('inventario')
+
+
+def eliminar_inventario(request):
+    if request.method == 'POST':
+        registro_id = request.POST.get('id')
+
+        try:
+            registro = Inventario.objects.get(id=registro_id)
+            registro.delete()
+            messages.success(request, 'Elemento eliminado correctamnete')
+            return redirect('inventario')
+
+        except:
+            messages.error(request, 'Ha ocurrido un error inesperado')
+            return redirect('inventario')
+
+    return redirect('inventario')

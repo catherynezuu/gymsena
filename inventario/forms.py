@@ -9,10 +9,16 @@ class PrestamosForm(forms.Form):
 class DevolucionesForm(forms.Form):
     codigo_inventario = CharField(label='Codigo del inventario', max_length = 100)
 
-class reg_inventarioForm(ModelForm):
+class AgregarInventarioForm(ModelForm):
     class Meta:
         model=Inventario
         fields=['codigo', 'nombre', 'categoria']
+
+class ActualizarInventarioForm(forms.Form):
+    id = IntegerField(min_value=1, widget=HiddenInput())
+    codigo = IntegerField(label='Codigo', min_value=1)
+    nombre = CharField(label='Nombre', max_length=100, min_length=2)
+    categoria = ModelChoiceField(queryset=Categoria.objects.all(), label='Categoría')
 
 class AgregarCategoriaForm(ModelForm):
     class Meta:

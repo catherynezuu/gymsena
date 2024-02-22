@@ -1,14 +1,116 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 
-<form id="reg_inventario_form" action="" method="post">
-    {%csrf_token %}
-    {{formreg_inventario}}
+<main>
+  <section id="inventario_section_top">
+    <button type="button" id="abrir_modal">Agregar Elemento</button>
+    <div id="buscar_inventario_container" class="buscar_container">
+      <input
+        type="text"
+        id="buscar_inventario_input"
+        class="buscar_input"
+        placeholder="Filtrar elementos"
+      />
+      <button id="boton_limpiar_busqueda" type="button">Limpiar</button>
+    </div>
+  </section>
 
-    <button type="submit">
-        añadir
-    </button>
-</form>
-<div class="modal fade" id="edicion" role="dialog">
+  <section id="inventario_section_main">
+    <div class="table_container">
+      <table>
+        <thead>
+          <tr>
+            <td>Nombre</td>
+            <td>Código</td>
+            <td>Categoría</td>
+            <td>¿En préstamo?</td>
+            <td>Actualizar</td>
+            <td>Eliminar</td>
+          </tr>
+        </thead>
+        <tbody>
+          {% for elemento in inventario %}
+          <tr data-registro-id="{{ elemento.id }}"  data-categoria-id="{{ elemento.categoria.id}}">
+            <td>{{ elemento.nombre }}</td>
+            <td>{{ elemento.codigo }}</td>
+            <td>{{ elemento.categoria }}</td>
 
+            <td>
+              {% if elemento.en_prestamo %}
+              <span class="table_checked">&#10004;</span>
+              {% else %}
+              <span class="table_non_checked">&times;</span>
+              {%endif %}
+            </td>
+
+            <td>
+              <button type="button" class="table_update_button">
+                Actualizar
+              </button>
+            </td>
+            <td>
+              <form
+                id="eliminar-form-{{ elemento.id }}"
+                action="{% url 'eliminar_inventario' %}"
+                method="post"
+              >
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{ elemento.id }}" />
+                <button type="button" class="table_delete_button">
+                  Eliminar
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<div id="modal-agregar" class="modal">
+  <div class="modal_content">
+    <span class="close">&times;</span>
+    <h2>Agregar Elemento</h2>
+    <form
+      id="reg_inventario_form"
+      action="{% url 'agregar_inventario' %}"
+      method="post"
+    >
+      {%csrf_token %} {{form_agregar}}
+      <button type="submit">Guardar</button>
+    </form>
+  </div>
 </div>
+
+<div id="modal_actualizar" class="modal">
+  <div class="modal_content">
+    <span class="close">&times;</span>
+    <h2>Actualizar Elemento</h2>
+    <form
+      method="POST"
+      action="{% url 'actualizar_inventario' %}"
+      id="form_actualizar_inventario"
+    >
+      {% csrf_token %} {{ form_actualizar }}
+      <button type="submit">Guardar</button>
+    </form>
+  </div>
+</div>
+
+<div id="modal_confirmacion" class="modal">
+  <div class="modal_content">
+    <h2>¿Seguro de que desea eliminar el elemento?</h2>
+    <div class="modal_message_body">
+      <p>Se eliminarán todos los registros de préstamos del elemento</p>
+    </div>
+    <div class="modal_buttons_row">
+      <a href="">Cancelar</a>
+      <button id="confirmar_eliminacion_btn">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'inventario.js' %}"></script>
+
 {% endblock %}

@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 <main id="home_main">
-<section id="home_section_forms">
+  <section id="home_section_forms">
     <div>
       <form id="prestamos_form" action="" method="post">
         {%csrf_token %} {{formPrestamos}}
@@ -18,32 +18,61 @@
     <div>
       <button type="button" id="abrir_modal">Agregar usuario</button>
     </div>
-</section>
+  </section>
 
-  <section>
-    <div class="table_container">
-      <table>
-        <thead>
-          <tr>
-            <td>Nombre</td>
-            <td>categoría</td>
-          </tr>
-        </thead>
-        <tbody>
-          {% for elemento in inventario %}
-          <tr>
-            <td>{{ elemento.nombre }}</td>
-            <td>{{ elemento.categoria }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </article>
+  <section id="home_section_table">
+    <div id="home_section_table_top">
+      <div id="buscar_home_container" class="buscar_container">
+        <input
+          type="text"
+          id="buscar_home_input"
+          class="buscar_input"
+          placeholder="Filtrar elemntos"
+        />
+        <button
+          id="boton_limpiar_busqueda"
+          class="boton_limpiar_busqueda"
+          type="button"
+        >
+          Limpiar
+        </button>
+      </div>
+    </div>
+    <div id="home_section_table_main">
+      <div class="table_container">
+        <table>
+          <thead>
+            <tr>
+              <td>Nombre</td>
+              <td>Código</td>
+              <td>Categoría</td>
+              <td>¿En préstamo?</td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for elemento in inventario %}
+            <tr>
+              <td>{{ elemento.nombre }}</td>
+              <td>{{ elemento.codigo }}</td>
+              <td>{{ elemento.categoria }}</td>
+              <td>
+                {% if elemento.en_prestamo %}
+                <span class="table_checked">&#10004;</span>
+                {% else %}
+                <span class="table_non_checked">&times;</span>
+                {%endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
   </section>
 </main>
 
 <div id="home_modal" class="modal">
-  <div class="modal-content">
+  <div class="modal_content">
     <span class="close">&times;</span>
     <h2>Registro de usuarios</h2>
     <form method="POST" action="" id="form_registro_usuarios">

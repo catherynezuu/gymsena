@@ -41,4 +41,31 @@ $(document).ready(function () {
       },
     });
   }
+
+  const buscarCategoriaInput = document.getElementById(
+    "buscar_home_input"
+  );
+  const limpiarBtn = document.getElementById("boton_limpiar_busqueda");
+  const filasTabla = document.querySelectorAll("tbody tr");
+
+  function filtrarTabla() {
+    var filtro = buscarCategoriaInput.value.toLowerCase();
+    filasTabla.forEach(function (fila) {
+      const textoFila = fila
+        .querySelector("td:first-child")
+        .textContent.toLowerCase();
+      if (textoFila.includes(filtro)) {
+        fila.style.display = "";
+      } else {
+        fila.style.display = "none";
+      }
+    });
+  }
+
+  buscarCategoriaInput.addEventListener("input", filtrarTabla);
+
+  limpiarBtn.addEventListener("click", function () {
+    buscarCategoriaInput.value = "";
+    filtrarTabla();
+  });
 });

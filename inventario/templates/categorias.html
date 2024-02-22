@@ -3,6 +3,15 @@
 <main id="categorias_main">
   <section id="categorias_section_top">
     <button type="button" id="abrir_modal">Agregar Categoría</button>
+    <div id="buscar_categoria_container" class="buscar_container">
+      <input
+        type="text"
+        id="buscar_categoria_input"
+        class="buscar_input"
+        placeholder="Filtrar categoria"
+      />
+      <button class="boton_limpiar_busqueda" type="button">Limpiar</button>
+    </div>
   </section>
   <section id="categorias_section_main">
     <div class="table_container">
@@ -24,10 +33,16 @@
               </button>
             </td>
             <td>
-              <form id="eliminar-form-{{ row.id }}" action="{% url 'eliminar_categoria' %}" method="post">
-                  {% csrf_token %}
-                  <input type="hidden" name="id" value="{{ row.id }}">
-                  <button type="button" class="table_delete_button">Eliminar</button>
+              <form
+                id="eliminar-form-{{ row.id }}"
+                action="{% url 'eliminar_categoria' %}"
+                method="post"
+              >
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{ row.id }}" />
+                <button type="button" class="table_delete_button">
+                  Eliminar
+                </button>
               </form>
             </td>
           </tr>
@@ -39,41 +54,50 @@
 </main>
 
 <div id="modal-agregar" class="modal">
-  <div class="modal-content">
+  <div class="modal_content">
     <span class="close">&times;</span>
     <h2>Agregar Categoría</h2>
-    <form method="POST" action="{% url 'agregar_categoria' %}" id="form_agregar_categoria">
+    <form
+      method="POST"
+      action="{% url 'agregar_categoria' %}"
+      id="form_agregar_categoria"
+    >
       {% csrf_token %} {{ form_agregar }}
       <button type="submit">Guardar</button>
     </form>
   </div>
 </div>
 
-<div id="modal-actualizar" class="modal">
-  <div class="modal-content">
+<div id="modal_actualizar" class="modal">
+  <div class="modal_content">
     <span class="close">&times;</span>
     <h2>Actualizar Categoría</h2>
-    <form method="POST" action="{% url 'actualizar_categoria' %}" id="form_actualizar_categoria">
-      {% csrf_token %} 
-      {{ form_actualizar }}
+    <form
+      method="POST"
+      action="{% url 'actualizar_categoria' %}"
+      id="form_actualizar_categoria"
+    >
+      {% csrf_token %} {{ form_actualizar }}
       <button type="submit">Guardar</button>
     </form>
   </div>
 </div>
 
-<div id="modal-confirmacion" class="modal">
-  <div class="modal-content">
+<div id="modal_confirmacion" class="modal">
+  <div class="modal_content">
     <h2>¿Seguro de que desea eliminar la categoría?</h2>
-    <div class="modal-buttons-row">
+    <div class="modal_message_body">
+      <p>Se eliminarán todos los elementos pertenecientes a esta categoría</p>
+    </div>
+    <div class="modal_buttons_row">
       <a href="">Cancelar</a>
-      <button id="confirmar-eliminacion-btn">Eliminar</button>
+      <button id="confirmar_eliminacion_btn">Eliminar</button>
     </div>
   </div>
 </div>
 
 <script>
   const agregarCategoriaURL = "{% url 'agregar_categoria' %}";
-
 </script>
 
 <script src="{% static 'categorias.js' %}"></script>

@@ -1,10 +1,9 @@
 :root {
   --green-primary: #2cdf62;
-  --green-secondary: #00CA76;
+  --green-secondary: #00ca76;
   --gray-primary: #aaaaaa;
   --gray-secondary: #e1e0e0;
-  --red-primary: #F52600;
-
+  --red-primary: #f52600;
 }
 
 html {
@@ -21,6 +20,17 @@ body {
 main {
   width: 100%;
   height: 90vh;
+}
+
+button:hover,
+.close:hover {
+  filter: brightness(110%);
+  transform: scale(1.05);
+}
+
+button:active,
+close:active {
+  filter: brightness(70%);
 }
 
 /* HEADER */
@@ -68,7 +78,7 @@ header nav ul a {
 
 /* MESSAGES */
 
-.messages{
+.messages {
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
@@ -81,7 +91,7 @@ header nav ul a {
   left: 20;
 }
 
-.message-element{
+.message-element {
   height: 2.5em;
   width: 100%;
   border-radius: 3px;
@@ -92,11 +102,11 @@ header nav ul a {
   list-style-type: none;
 }
 
-.message-success{
+.message-success {
   background-color: var(--green-secondary);
 }
 
-.message-error{
+.message-error {
   background-color: var(--red-primary);
 }
 
@@ -117,35 +127,43 @@ header nav ul a {
   align-items: center;
 }
 
-.modal-content {
+.modal_content {
   width: 600px;
   max-width: 100%;
-  height: 300px;
   min-height: 300px;
   position: relative;
   background-color: white;
   border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  grid-template-rows: 1fr 3fr 1fr;
 }
 
-.modal-content > h2 {
+.modal_content > h2 {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: auto;
+  grid-row: 1/2;
 }
 
-.modal-buttons-row {
+.modal_message_body {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-size: 1.4em;
+  color: var(--red-primary);
+}
+
+.modal_buttons_row {
   display: flex;
   align-self: center;
   justify-content: space-evenly;
   height: 60px;
   width: 100%;
-  padding-bottom: 2em;
 }
 
-.modal-buttons-row > button {
+.modal_buttons_row > button {
   height: 50px;
   width: 150px;
   font-size: large;
@@ -155,7 +173,7 @@ header nav ul a {
   padding: 0;
 }
 
-.modal-buttons-row > a {
+.modal_buttons_row > a {
   height: 46px;
   width: 146px;
   display: flex;
@@ -169,37 +187,48 @@ header nav ul a {
   text-decoration: none;
 }
 
-#confirmar-eliminacion-btn {
-  background-color: var(--red-primary);  
+#confirmar_eliminacion_btn {
+  background-color: var(--red-primary);
 }
 
-.modal-content > form {
+.modal_content > form {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
   height: 100%;
+  grid-row: 2/6;
 }
 
-.modal-content > form {
+.modal_content > form {
   font-size: larger;
 }
 
-.modal-content > form div {
-  display: flex;
+.modal_content > form div {
   gap: 25px;
-  justify-content: center;
-  align-items: center;
+  width: 80%;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  place-items: center;
 }
 
-.modal-content > form input {
+.modal_content > form input {
   font-size: large;
   height: 30px;
   border: 2px solid var(--gray-primary);
   border-radius: 5px;
+  width: 80%;
 }
 
-.modal-content > form > button {
+.modal_content > form select {
+  font-size: large;
+  height: 30px;
+  border: 2px solid var(--gray-primary);
+  border-radius: 5px;
+  width: 80%;
+}
+
+.modal_content > form button {
   height: 50px;
   width: 150px;
   font-size: large;
@@ -226,6 +255,41 @@ header nav ul a {
 
 /* END MODAL */
 
+/* SEARCH */
+
+.buscar_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 3px solid var(--gray-primary);
+  width: 100%;
+  height: 3em;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.buscar_container input {
+  width: 80%;
+  height: 100%;
+  font-size: 1.5em;
+  border: none;
+}
+
+.buscar_container:has(input:focus) {
+  border: 3px solid var(--green-secondary);
+}
+
+.buscar_container button {
+  height: 100%;
+  color: white;
+  background-color: var(--gray-primary);
+  border: none;
+  width: 20%;
+  font-size: 1.2em;
+}
+
+/* END SEARCH */
+
 /* TABLE */
 
 .table_container {
@@ -233,13 +297,12 @@ header nav ul a {
   border: 5px solid var(--gray-primary);
   border-radius: 10px;
   overflow-y: scroll;
+  max-width: 90%;
+  width: 800px;
 }
 
 table {
-  height: 70%;
-  padding: 1em;
-  min-width: 300px;
-  max-width: 100%;
+  width: 100%;
   max-height: 600px;
 }
 
@@ -253,8 +316,6 @@ table tbody {
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: 700px;
-  max-width: 100%;
   text-transform: capitalize;
 }
 
@@ -301,6 +362,7 @@ table button {
   border: none;
   color: white;
   border-radius: 5px;
+  font-size: 1.2em;
 }
 
 table form {
@@ -319,12 +381,33 @@ table form {
   background-color: var(--red-primary);
 }
 
+.table_checked,
+.table_non_checked {
+  font-size: 2em;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+}
+
+.table_checked {
+  background-color: var(--green-primary);
+}
+
+.table_non_checked {
+  background-color: var(--red-primary);
+}
+
 /* END TABLE */
 
 /* HOME */
 
 #home_main {
   display: flex;
+  height: 80vh;
 }
 
 #home_main > * {
@@ -346,18 +429,39 @@ table form {
   align-items: center;
 }
 
+#home_section_table_top {
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#home_section_table_main {
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: top;
+}
+
+#buscar_home_container {
+  width: 70%;
+}
+
 /* END HOME */
 
 /* CATEGORIAS */
 
 #categorias_section_top {
   height: 10vh;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   justify-content: start;
   align-items: center;
-  padding-inline: 5em;
+  padding-inline: 2em;
+  gap: 10px;
 }
-#categorias_section_top button {
+
+#categorias_section_top #abrir_modal {
   height: 50px;
   width: 150px;
   font-size: large;
@@ -365,6 +469,7 @@ table form {
   border-radius: 5px;
   border: 2px solid var(--gray-primary);
   color: white;
+  place-self: left;
 }
 
 #categorias_section_main {
@@ -375,3 +480,39 @@ table form {
 }
 
 /* END CATEGORIAS */
+
+/* INVENTARIO */
+
+#inventario_section_top {
+  height: 10vh;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-content: start;
+  align-items: center;
+  padding-inline: 2em;
+  gap: 10px;
+}
+
+#inventario_section_top #abrir_modal {
+  height: 50px;
+  width: 150px;
+  font-size: large;
+  background-color: var(--green-primary);
+  border-radius: 5px;
+  border: 2px solid var(--gray-primary);
+  color: white;
+  place-self: left;
+}
+
+#inventario_section_main {
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: top;
+}
+
+#inventario_section_main .table_container{
+  width: 900px;
+}
+
+/* END INVENTARIO */

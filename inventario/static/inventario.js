@@ -5,28 +5,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("modal-agregar").style.display = "flex";
   });
 
-  var updateButtons = document.querySelectorAll(".table_update_button");
-
-  updateButtons.forEach(function (button) {
-    button.addEventListener("click", function () {
-      var row = this.closest("tr");
-      var id = parseInt(row.getAttribute("data-registro-id"));
-      var nombre = row.querySelector("td:first-child").textContent.trim();
-
-      var idInput = document.querySelector(
-        '#form_actualizar_categoria input[name="id"]'
-      );
-      var nombreInput = document.querySelector(
-        '#form_actualizar_categoria input[name="nombre"]'
-      );
-
-      idInput.setAttribute("value", id);
-      nombreInput.setAttribute("value", nombre);
-
-      document.getElementById("modal_actualizar").style.display = "flex";
-    });
-  });
-
   const modalConfirmacion = document.getElementById("modal_confirmacion");
   const confirmarEliminacionBtn = document.getElementById(
     "confirmar_eliminacion_btn"
@@ -50,14 +28,47 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  const buscarCategoriaInput = document.getElementById(
-    "buscar_categoria_input"
+  var updateButtons = document.querySelectorAll(".table_update_button");
+
+  updateButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+      const row = this.closest("tr");
+      const id = parseInt(row.getAttribute("data-registro-id"));
+      const nombre = row.querySelector("td:first-child").textContent.trim();
+      const codigo = parseInt(row.querySelector("td:nth-child(2)").textContent);
+      const categoria = parseInt(row.getAttribute("data-categoria-id"));
+
+      const idInput = document.querySelector(
+        '#form_actualizar_inventario input[name="id"]'
+      );
+      const nombreInput = document.querySelector(
+        '#form_actualizar_inventario input[name="nombre"]'
+      );
+      const codigoInput = document.querySelector(
+        '#form_actualizar_inventario input[name="codigo"]'
+      );
+      const selectInput = document.querySelector(
+        '#form_actualizar_inventario select[name="categoria"]'
+      );
+      console.log(selectInput)
+
+      idInput.setAttribute("value", id);
+      nombreInput.setAttribute("value", nombre);
+      codigoInput.setAttribute("value", codigo);
+      selectInput.value = categoria;
+
+      document.getElementById("modal_actualizar").style.display = "flex";
+    });
+  });
+
+  const buscarInventarioInput = document.getElementById(
+    "buscar_inventario_input"
   );
   const limpiarBtn = document.getElementById("boton_limpiar_busqueda");
   const filasTabla = document.querySelectorAll("tbody tr");
 
   function filtrarTabla() {
-    var filtro = buscarCategoriaInput.value.toLowerCase();
+    var filtro = buscarInventarioInput.value.toLowerCase();
     filasTabla.forEach(function (fila) {
       const textoFila = fila
         .querySelector("td:first-child")
@@ -70,10 +81,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  buscarCategoriaInput.addEventListener("input", filtrarTabla);
+  buscarInventarioInput.addEventListener("input", filtrarTabla);
 
   limpiarBtn.addEventListener("click", function () {
-    buscarCategoriaInput.value = "";
+    buscarInventarioInput.value = "";
     filtrarTabla();
   });
 });

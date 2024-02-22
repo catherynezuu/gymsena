@@ -20,13 +20,20 @@ from inventario import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
     path('logout/', views.signout, name='logout'),
     path('signin/', views.signin, name='signin'),
+
+    path('', views.home, name='home'),
+
     path('inventario/', views.inventario, name='inventario'),
+    path('agregar_inventario', views.agregar_inventario, name='agregar_inventario'),
+    path('actualizar_inventario', views.actualizar_inventario, name='actualizar_inventario'),
+    path('eliminar_inventario', views.eliminar_inventario, name='eliminar_inventario'),
+
     path('categorias/', views.categorias, name='categorias'),
     path('agregar_categoria/', views.agregar_categoria, name='agregar_categoria'),
     path('eliminar_categoria/', views.eliminar_categoria, name='eliminar_categoria'),
     path('actualizar_categoria/', views.actualizar_categoria, name='actualizar_categoria'),
+
     path('registro_usuario/', views.registro_usuario, name='registro_usuario'),
 ]
