@@ -1,10 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
+
+  //abrir modal agregar categoría
   const abrirModal = document.getElementById("abrir_modal");
 
   abrirModal.addEventListener("click", function () {
     document.getElementById("modal-agregar").style.display = "flex";
   });
 
+
+  //procesa botones de actualizar categorías
   var updateButtons = document.querySelectorAll(".table_update_button");
 
   updateButtons.forEach(function (button) {
@@ -27,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  //modal confirmación eliminar categoría
   const modalConfirmacion = document.getElementById("modal_confirmacion");
   const confirmarEliminacionBtn = document.getElementById(
     "confirmar_eliminacion_btn"
@@ -50,6 +55,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+
+  //filtrar tabla de categorías
   const buscarCategoriaInput = document.getElementById(
     "buscar_categoria_input"
   );

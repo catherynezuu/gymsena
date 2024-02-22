@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+
+  //Código ocultar mensajes
   const info_messages = document.getElementsByClassName("message-element");
 
   function fadeOut(el, speed) {
@@ -21,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }, 5000);
 
+  //código cerrar modales
   var modals = document.querySelectorAll(".modal");
   var cerrarModales = document.querySelectorAll(".close");
 
