@@ -152,27 +152,35 @@ def eliminar_categoria(request):
     return redirect('categorias')
 
 
-def registro_usuario(request):
-    if request.method == 'GET':
-        return render(request, 'usuarios.html', {'form': RegistroForm})
+def agregar_usuario(request):
+    if request.method != 'POST':
+        messages.error(request, "Método inválido")
+        return('home')
 
-    else:
-        print(request.POST)
-        form = RegistroForm(request.POST)
-        if form.is_valid():
-            cedula_usuario = form.cleaned_data['cedula']
+    form = RegistroForm(request.POST)
 
-            if Usuarios.objects.filter(cedula=cedula_usuario).exists():
-                data = {'success': False, 'message': 'el usuario ya existe'}
-                return JsonResponse(data, status=400)
-            else:
-                usuario = form.save()
-                data = {'success': True,
-                        'message': 'usuario agregado correctamente'}
-                return JsonResponse(data)
-        else:
-            data = {'success': False, 'errors': form.errors}
-            return JsonResponse(data, status=400)
+    if not form.is_valid():
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(request, f'{field}: {error}')
+        return redirect('home')
+    
+    cedula_usuario = form.cleaned_data['cedula']
+
+    if Usuarios.objects.filter(cedula=cedula_usuario).exists():
+        messages.error(request, "Cédula ya registrada")
+        return redirect('home')
+    
+    nombre_usuario = form.cleaned_data['nombre']
+
+    if nombre_usuario.isnumeric():
+        messages.error(request, "No se permiten solo números en el nombre")
+        return redirect('home')
+    
+    usuario = form.save()
+    messages.success(request, 'Usuario registrado correctamente')
+    return redirect('home')
+
 
 
 def inventario(request):
@@ -211,7 +219,14 @@ def agregar_inventario(request):
         messages.error(request, 'No se puede agregar, código ya existente')
         return redirect('inventario')
 
-    form.save()
+    objeto_inventario = Inventario()
+    objeto_inventario.nombre = nombre_inventario
+    objeto_inventario.codigo = codigo_inventario
+    objeto_inventario.stock = form.cleaned_data["stock"]
+    objeto_inventario.disponibles = form.cleaned_data["stock"]
+    objeto_inventario.categoria = form.cleaned_data["categoria"]
+    objeto_inventario.save()
+
     messages.success(request, 'Elemento agregado correctamente')
     return redirect('inventario')
 
@@ -238,6 +253,19 @@ def actualizar_inventario(request):
         messages.error(
             request, 'Nombre inválido, no se permiten solamente números')
         return redirect('inventario')
+    
+    elemento_encontrado = Inventario.objects.get(codigo= codigo_inventario)
+    if elemento_encontrado.id != id_inventario:
+        messages.error(
+            request, 'Error, código ya existente, intente con otro')
+        return redirect('inventario')
+    
+    elemento_encontrado_nombre = Inventario.objects.get(nombre= nombre_inventario)
+    if elemento_encontrado_nombre.id != id_inventario:
+        messages.error(
+            request, 'Error, nombre ya existente, intente con otro')
+        return redirect('inventario')   
+
     
     try:
         Inventario.objects.get(id=id_inventario)
@@ -273,3 +301,54 @@ def eliminar_inventario(request):
             return redirect('inventario')
 
     return redirect('inventario')
+
+def prestamo(request):
+    if not request.method == 'POST':
+        messages.error(request, 'Método inválido')
+        return redirect('home')
+    
+    form = PrestamosForm(request.POST)
+
+    if not form.is_valid():
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(request, f'{field}: {error}')
+        return redirect('inventario')
+    
+    prestamo_nombre = form.cleaned_data["nombre_elemento"]
+    objecto_inventario = Inventario.objects.get(nombre=prestamo_nombre)
+
+    cantidad_form=form.cleaned_data['cantidad']
+    if cantidad_form > objecto_inventario.disponibles:
+        messages.error(request, 'No hay disponibilidad')
+        return redirect('home')
+    
+    try:
+        usuario=Usuarios.objects.get(cedula=form.cleaned_data['cedula_usuario'])
+    except:
+        messages.error(request, 'Cédula de usuario no encontrada')
+        return redirect('home')
+    
+
+
+    objeto_transaccion= Transacciones()
+    objeto_transaccion.id_inventario=prestamo_nombre
+    objeto_transaccion.id_usuario=usuario
+    objeto_transaccion.cantidad=cantidad_form
+
+    try:
+        objeto_transaccion.save()
+        objecto_inventario.disponibles -= cantidad_form
+        objecto_inventario.save()
+    except:
+        messages.error(request, 'Ha ocurrido un error registrando la transaccion')
+        return redirect('home')
+    
+
+    messages.success(request, "Elemento prestado correctamente")
+    return redirect('home')
+
+
+    
+
+

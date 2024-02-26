@@ -35,5 +35,7 @@ urlpatterns = [
     path('eliminar_categoria/', views.eliminar_categoria, name='eliminar_categoria'),
     path('actualizar_categoria/', views.actualizar_categoria, name='actualizar_categoria'),
 
-    path('registro_usuario/', views.registro_usuario, name='registro_usuario'),
+    path('agregar_usuario/', views.agregar_usuario, name='agregar_usuario'),
+
+    path('prestamo/', views.prestamo, name="prestamo")
 ]

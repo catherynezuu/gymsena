@@ -12,10 +12,12 @@ class Inventario(models.Model):
     codigo=models.BigIntegerField()
     nombre=models.CharField(max_length=100)
     categoria=models.ForeignKey(Categoria, on_delete=models.CASCADE)
-    en_prestamo=models.BooleanField(default=False)
+    stock=models.IntegerField()
+    disponibles=models.BigIntegerField()
+    descripcion= models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
-        return self.codigo
+        return self.nombre
 
 class Usuarios(models.Model): 
     cedula=models.IntegerField()
@@ -23,13 +25,11 @@ class Usuarios(models.Model):
 
     def __str__(self):
         return self.nombre
-
     
-class Prestamos(models.Model):
+class Transacciones(models.Model):
     id_inventario=models.ForeignKey(Inventario,on_delete=models.CASCADE)
     id_usuario=models.ForeignKey(Usuarios,on_delete=models.CASCADE)
     fecha_prestamo=models.DateTimeField(auto_now_add=True)
     fecha_devolucion=models.DateTimeField(null=True, blank=True)
-
-    def __str__(self):
-        return self.id_inventario
+    observaciones=models.CharField(max_length=200, null=True, blank=True)
+    cantidad=models.IntegerField()

@@ -2,7 +2,7 @@
 <main id="home_main">
   <section id="home_section_forms">
     <div>
-      <form id="prestamos_form" action="" method="post">
+      <form id="prestamos_form" action="{% url 'prestamo' %}" method="post">
         {%csrf_token %} {{formPrestamos}}
 
         <button type="submit">enviar</button>
@@ -16,7 +16,7 @@
       </form>
     </div>
     <div>
-      <button type="button" id="abrir_modal">Agregar usuario</button>
+      <button type="button" id="abrir_modal_usuario">Agregar usuario</button>
     </div>
   </section>
 
@@ -75,7 +75,7 @@
   <div class="modal_content">
     <span class="close">&times;</span>
     <h2>Registro de usuarios</h2>
-    <form method="POST" action="" id="form_registro_usuarios">
+    <form method="POST" action="{% url 'agregar_usuario' %}" id="form_registro_usuarios">
       {% csrf_token %} {{ formRegistroUsuario }}
       <button type="submit">Registrar</button>
     </form>

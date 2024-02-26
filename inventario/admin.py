@@ -6,4 +6,4 @@ from inventario.models import *
 admin.site.register(Categoria)
 admin.site.register(Inventario)
 admin.site.register(Usuarios)
-admin.site.register(Prestamos)
+admin.site.register(Transacciones)

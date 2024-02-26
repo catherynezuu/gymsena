@@ -22,7 +22,7 @@
             <td>Nombre</td>
             <td>Código</td>
             <td>Categoría</td>
-            <td>¿En préstamo?</td>
+            <td>Stock</td>
             <td>Actualizar</td>
             <td>Eliminar</td>
           </tr>
@@ -33,14 +33,7 @@
             <td>{{ elemento.nombre }}</td>
             <td>{{ elemento.codigo }}</td>
             <td>{{ elemento.categoria }}</td>
-
-            <td>
-              {% if elemento.en_prestamo %}
-              <span class="table_checked">&#10004;</span>
-              {% else %}
-              <span class="table_non_checked">&times;</span>
-              {%endif %}
-            </td>
+            <td>{{ elemento.stock}}</td>
 
             <td>
               <button type="button" class="table_update_button">

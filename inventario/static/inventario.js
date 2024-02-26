@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const selectInput = document.querySelector(
         '#form_actualizar_inventario select[name="categoria"]'
       );
-      console.log(selectInput)
+      console.log(selectInput);
 
       idInput.setAttribute("value", id);
       nombreInput.setAttribute("value", nombre);
@@ -73,7 +73,16 @@ document.addEventListener("DOMContentLoaded", function () {
       const textoFila = fila
         .querySelector("td:first-child")
         .textContent.toLowerCase();
-      if (textoFila.includes(filtro)) {
+      const codigoFila = fila.querySelector("td:nth-child(2)").textContent;
+      const categoriaFila = fila
+        .querySelector("td:nth-child(3)")
+        .textContent.toLocaleLowerCase();
+
+      if (
+        textoFila.includes(filtro) ||
+        codigoFila.includes(filtro) ||
+        categoriaFila.includes(filtro)
+      ) {
         fila.style.display = "";
       } else {
         fila.style.display = "none";
