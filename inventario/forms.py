@@ -3,13 +3,15 @@ from .models import*
 
 
 class PrestamosForm(forms.Form):
-    cedula_usuario = CharField(label='Cedula del usuario', max_length=100)
+    cedula_usuario = IntegerField(label='Cedula del usuario')
     nombre_elemento = ModelChoiceField(queryset=Inventario.objects.all(), label="Elemento")
     cantidad = IntegerField(label="cantidad", min_value=1)
 
-  
 class DevolucionesForm(forms.Form):
-    codigo_inventario = CharField(label='Codigo del inventario', max_length = 100)
+    codigo_inventario = ModelChoiceField(queryset=Inventario.objects.all(), label="Nombre elemento")
+    cedula_usuario = IntegerField(label='Cedula del usuario')
+    observaciones = CharField(label='Observaciones', max_length=200, required=False)
+
 
 class AgregarInventarioForm(ModelForm):
     class Meta:

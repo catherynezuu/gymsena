@@ -37,5 +37,7 @@ urlpatterns = [
 
     path('agregar_usuario/', views.agregar_usuario, name='agregar_usuario'),
 
-    path('prestamo/', views.prestamo, name="prestamo")
+    path('prestamo/', views.prestamo, name="prestamo"),
+    path('registro_prestamos/',views.registro_prestamos, name='registro_prestamos'),
+    path('devolucion/',views.devolucion, name='devolucion')
 ]

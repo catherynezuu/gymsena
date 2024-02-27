@@ -9,7 +9,7 @@
       </form>
     </div>
     <div>
-      <form id="devoluciones_form" action="" method="post">
+      <form id="devoluciones_form" action="{% url 'devolucion' %}" method="post">
         {%csrf_token %} {{formDevoluciones}}
 
         <button type="submit">devolver</button>

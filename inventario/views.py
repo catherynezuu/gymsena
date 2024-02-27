@@ -10,33 +10,54 @@ from .models import *
 from django.http import JsonResponse
 
 
-# Create your views here.
+# pagina principal y prestamos
 def home(request):
     inventario_info = Inventario.objects.all()
     return render(request, 'home.html', {'formPrestamos': PrestamosForm, 'formDevoluciones': DevolucionesForm, 'formRegistroUsuario': RegistroForm, 'inventario': inventario_info})
 
+def prestamo(request):
+    if not request.method == 'POST':
+        messages.error(request, 'Método inválido')
+        return redirect('home')
+    
+    form = PrestamosForm(request.POST)
 
-def signup(request):
-    if request.method == 'GET':
-        return render(request, 'signup.html', {'form': UserCreationForm
-                                               })
-    else:
-        if request.POST['password1'] == request.POST['password2']:
-            try:
-                user = User.objects.create_user(
-                    username=request.POST['username'], password=request.POST['password1'])
-                user.save()
-                login(request, user)
-                return redirect('tasks')
-            except IntegrityError:
-                return render(request, 'signup.html', {
-                    'form': UserCreationForm, "error": 'el usuario ya existe'
-                })
+    if not form.is_valid():
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(request, f'{field}: {error}')
+        return redirect('inventario')
+    
+    prestamo_nombre = form.cleaned_data["nombre_elemento"]
+    objecto_inventario = Inventario.objects.get(nombre=prestamo_nombre)
 
-          # register user
+    cantidad_form=form.cleaned_data['cantidad']
+    if cantidad_form > objecto_inventario.disponibles:
+        messages.error(request, 'No hay disponibilidad')
+        return redirect('home')
+    
+    try:
+        usuario=Usuarios.objects.get(cedula=form.cleaned_data['cedula_usuario'])
+    except:
+        messages.error(request, 'Cédula de usuario no encontrada')
+        return redirect('home')
+    
+    objeto_transaccion= Transacciones()
+    objeto_transaccion.id_inventario=prestamo_nombre
+    objeto_transaccion.id_usuario=usuario
+    objeto_transaccion.cantidad=cantidad_form
 
-    return render(request, 'signup.html', {'form': UserCreationForm, "error": 'contraseña incorrecta'
-                                           })
+    try:
+        objeto_transaccion.save()
+        objecto_inventario.disponibles -= cantidad_form
+        objecto_inventario.save()
+    except:
+        messages.error(request, 'Ha ocurrido un error registrando la transaccion')
+        return redirect('home')
+    
+
+    messages.success(request, "Elemento prestado correctamente")
+    return redirect('home')
 
 # cerrar sesion
 
@@ -62,6 +83,8 @@ def signin(request):
             return redirect('home')
 
 
+
+# categorias
 def categorias(request):
     form_agregar = AgregarCategoriaForm()
     form_actualizar = ActualizarCategoriaForm()
@@ -152,6 +175,9 @@ def eliminar_categoria(request):
     return redirect('categorias')
 
 
+
+
+# agregar usuario
 def agregar_usuario(request):
     if request.method != 'POST':
         messages.error(request, "Método inválido")
@@ -182,6 +208,8 @@ def agregar_usuario(request):
     return redirect('home')
 
 
+
+#inventario
 
 def inventario(request):
     inventario_info = Inventario.objects.all()
@@ -302,25 +330,21 @@ def eliminar_inventario(request):
 
     return redirect('inventario')
 
-def prestamo(request):
+def registro_prestamos(request):
+    transacciones_info= Transacciones.objects.all()
+    return render(request,'registro_prestamos.html', {'transacciones': transacciones_info})
+
+def devolucion(request):
     if not request.method == 'POST':
         messages.error(request, 'Método inválido')
-        return redirect('home')
+        return redirect('inventario')
     
-    form = PrestamosForm(request.POST)
+    form = DevolucionesForm(request.POST)
 
     if not form.is_valid():
         for field, errors in form.errors.items():
             for error in errors:
                 messages.error(request, f'{field}: {error}')
-        return redirect('inventario')
-    
-    prestamo_nombre = form.cleaned_data["nombre_elemento"]
-    objecto_inventario = Inventario.objects.get(nombre=prestamo_nombre)
-
-    cantidad_form=form.cleaned_data['cantidad']
-    if cantidad_form > objecto_inventario.disponibles:
-        messages.error(request, 'No hay disponibilidad')
         return redirect('home')
     
     try:
@@ -329,25 +353,11 @@ def prestamo(request):
         messages.error(request, 'Cédula de usuario no encontrada')
         return redirect('home')
     
-
-
-    objeto_transaccion= Transacciones()
-    objeto_transaccion.id_inventario=prestamo_nombre
-    objeto_transaccion.id_usuario=usuario
-    objeto_transaccion.cantidad=cantidad_form
-
-    try:
-        objeto_transaccion.save()
-        objecto_inventario.disponibles -= cantidad_form
-        objecto_inventario.save()
-    except:
-        messages.error(request, 'Ha ocurrido un error registrando la transaccion')
-        return redirect('home')
     
-
-    messages.success(request, "Elemento prestado correctamente")
+    
     return redirect('home')
-
+    
+    
 
     
 

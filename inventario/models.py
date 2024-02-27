@@ -33,3 +33,6 @@ class Transacciones(models.Model):
     fecha_devolucion=models.DateTimeField(null=True, blank=True)
     observaciones=models.CharField(max_length=200, null=True, blank=True)
     cantidad=models.IntegerField()
+
+    def __str__(self) -> str:
+        return str(self.id_inventario)
