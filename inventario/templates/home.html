@@ -43,10 +43,10 @@
         <table>
           <thead>
             <tr>
-              <td>Nombre</td>
-              <td>Código</td>
-              <td>Categoría</td>
-              <td>¿En préstamo?</td>
+              <th>Nombre</th>
+              <th>Código</th>
+              <th>Categoría</th>
+              <th>Disponibles</th>
             </tr>
           </thead>
           <tbody>
@@ -55,13 +55,7 @@
               <td>{{ elemento.nombre }}</td>
               <td>{{ elemento.codigo }}</td>
               <td>{{ elemento.categoria }}</td>
-              <td>
-                {% if elemento.en_prestamo %}
-                <span class="table_checked">&#10004;</span>
-                {% else %}
-                <span class="table_non_checked">&times;</span>
-                {%endif %}
-              </td>
+              <td>{{ elemento.disponibles }}</td>
             </tr>
             {% endfor %}
           </tbody>

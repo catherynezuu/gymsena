@@ -343,7 +343,7 @@ table td {
   align-items: center;
 }
 
-table td:not(:last-child) {
+table td:not(:last-child), table th:not(:last-child) {
   border-right: 1px solid var(--gray-primary);
 }
 
@@ -512,7 +512,7 @@ table form {
 }
 
 #inventario_section_main .table_container{
-  width: 900px;
+  width: 1000px;
 }
 
 /* END INVENTARIO */

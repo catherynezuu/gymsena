@@ -1,12 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
-
   //abrir modal agregar categoría
   const abrirModal = document.getElementById("abrir_modal");
 
   abrirModal.addEventListener("click", function () {
     document.getElementById("modal-agregar").style.display = "flex";
   });
-
 
   //procesa botones de actualizar categorías
   var updateButtons = document.querySelectorAll(".table_update_button");
@@ -55,7 +53,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-
   //filtrar tabla de categorías
   const buscarCategoriaInput = document.getElementById(
     "buscar_categoria_input"
@@ -64,11 +61,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const filasTabla = document.querySelectorAll("tbody tr");
 
   function filtrarTabla() {
-    var filtro = buscarCategoriaInput.value.toLowerCase();
+    const filtro = buscarCategoriaInput.value.toLowerCase();
+
     filasTabla.forEach(function (fila) {
       const textoFila = fila
         .querySelector("td:first-child")
         .textContent.toLowerCase();
+
       if (textoFila.includes(filtro)) {
         fila.style.display = "";
       } else {

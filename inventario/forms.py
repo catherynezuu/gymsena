@@ -4,13 +4,13 @@ from .models import*
 
 class PrestamosForm(forms.Form):
     cedula_usuario = IntegerField(label='Cedula del usuario')
-    nombre_elemento = ModelChoiceField(queryset=Inventario.objects.all(), label="Elemento")
-    cantidad = IntegerField(label="cantidad", min_value=1)
+    nombre_elemento = ModelChoiceField(queryset=Inventario.objects.all(), label="Nombre elemento", empty_label="")
+    cantidad = IntegerField(label="Cantidad", min_value=1)
 
 class DevolucionesForm(forms.Form):
-    codigo_inventario = ModelChoiceField(queryset=Inventario.objects.all(), label="Nombre elemento")
+    codigo_inventario = ModelChoiceField(queryset=Inventario.objects.all(), label="Nombre elemento", empty_label="")
     cedula_usuario = IntegerField(label='Cedula del usuario')
-    observaciones = CharField(label='Observaciones', max_length=200, required=False)
+    observaciones = CharField(label='Observaciones', max_length=200, required=False, widget=Textarea(attrs={"rows":"5"}))
 
 
 class AgregarInventarioForm(ModelForm):
@@ -23,8 +23,8 @@ class ActualizarInventarioForm(forms.Form):
     codigo = IntegerField(label='Codigo', min_value=1)
     nombre = CharField(label='Nombre', max_length=100, min_length=2)
     categoria = ModelChoiceField(queryset=Categoria.objects.all(), label='Categoría')
-    stock = IntegerField(label="stock", min_value=1)
-    disponibilidad=IntegerField(label='disponibilidad', min_value=0)
+    stock = IntegerField(label="Stock", min_value=1)
+    disponibilidad=IntegerField(label='Disponibles', min_value=0)
 
 class AgregarCategoriaForm(ModelForm):
     class Meta:

@@ -1,18 +1,3 @@
-document
-  .getElementById("prestamos_form")
-  .addEventListener("keypress", function (event) {
-    if (event.keyCode == 13) {
-      event.preventDefault();
-    }
-  });
-document
-  .getElementById("devoluciones_form")
-  .addEventListener("keypress", function (event) {
-    if (event.keyCode == 13) {
-      event.preventDefault();
-    }
-  });
-
 const botonAgregarUsuario = document.getElementById("abrir_modal_usuario");
 
 botonAgregarUsuario.addEventListener("click", function () {
@@ -32,10 +17,16 @@ function filtrarTabla() {
     const textoFila = fila
       .querySelector("td:first-child")
       .textContent.toLowerCase();
-    const codigoFila= fila.querySelector("td:nth-child(2)").textContent
-    const categoriaFila= fila.querySelector("td:nth-child(3)").textContent.toLowerCase
+    const codigoFila = fila.querySelector("td:nth-child(2)").textContent;
+    const categoriaFila = fila
+      .querySelector("td:nth-child(3)")
+      .textContent.toLowerCase();
 
-    if (textoFila.includes(filtro) || codigoFila.includes(filtro) || categoriaFila.includes(filtro)) {
+    if (
+      textoFila.includes(filtro) ||
+      codigoFila.includes(filtro) ||
+      categoriaFila.includes(filtro)
+    ) {
       fila.style.display = "";
     } else {
       fila.style.display = "none";
