@@ -407,7 +407,7 @@ table form {
 
 #home_main {
   display: flex;
-  height: 80vh;
+  height: 90vh;
 }
 
 #home_main > * {
