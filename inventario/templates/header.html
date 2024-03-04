@@ -1,17 +1,19 @@
 {% block header %}
 
 <header>
+  <div>
+    <img src="../static/img/logo_negativo.png" alt="" />
     <h1>GYMSENA</h1>
+  </div>
 
-    <nav>
-        <ul>
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'categorias' %}">Categorias</a></li>
-            <li><a href="{% url 'inventario' %}">Elementos</a></li>
-            <li><a href="{% url 'registro_prestamos' %}">Registros</a></li>
-        </ul>
-    </nav>
+  <nav>
+    <ul>
+      <li><a href="{% url 'home' %}">Home</a></li>
+      <li><a href="{% url 'categorias' %}">Categorias</a></li>
+      <li><a href="{% url 'inventario' %}">Elementos</a></li>
+      <li><a href="{% url 'historial' %}">Transacciones</a></li>
+    </ul>
+  </nav>
 </header>
-
 
 {% endblock %}

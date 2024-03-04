@@ -35,7 +35,7 @@
           type="text"
           id="buscar_home_input"
           class="buscar_input"
-          placeholder="Filtrar elementos"
+          placeholder="Filtrar préstamos abiertos"
         />
         <button
           id="boton_limpiar_busqueda"
@@ -54,16 +54,16 @@
               <th>Nombre</th>
               <th>Código</th>
               <th>Categoría</th>
-              <th>Disponibles</th>
+              <th>Fecha Préstamo</th>
             </tr>
           </thead>
           <tbody>
-            {% for elemento in inventario %}
+            {% for elemento in transacciones %}
             <tr>
-              <td>{{ elemento.nombre }}</td>
-              <td>{{ elemento.codigo }}</td>
-              <td>{{ elemento.categoria }}</td>
-              <td>{{ elemento.disponibles }}</td>
+              <td>{{ elemento.id_inventario.nombre }}</td>
+              <td>{{ elemento.id_inventario.codigo }}</td>
+              <td>{{ elemento.id_inventario.categoria }}</td>
+              <td>{{ elemento.fecha_prestamo|date:"h:i A, d/m/Y"}}</td>
             </tr>
             {% endfor %}
           </tbody>

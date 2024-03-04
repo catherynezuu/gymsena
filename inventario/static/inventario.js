@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const nombre = row.querySelector("td:first-child").textContent.trim();
       const codigo = parseInt(row.querySelector("td:nth-child(2)").textContent);
       const categoria = parseInt(row.getAttribute("data-categoria-id"));
+      const stock = parseInt(row.querySelector(":nth-child(4)").textContent);
 
       const idInput = document.querySelector(
         '#form_actualizar_inventario input[name="id"]'
@@ -50,12 +51,15 @@ document.addEventListener("DOMContentLoaded", function () {
       const selectInput = document.querySelector(
         '#form_actualizar_inventario select[name="categoria"]'
       );
-      console.log(selectInput);
+      const stockInput = document.querySelector(
+        '#form_actualizar_inventario input[name="stock"]'
+      );
 
-      idInput.setAttribute("value", id);
-      nombreInput.setAttribute("value", nombre);
-      codigoInput.setAttribute("value", codigo);
+      idInput.value = id;
+      nombreInput.value = nombre;
+      codigoInput.value = codigo;
       selectInput.value = categoria;
+      stockInput.value = stock
 
       document.getElementById("modal_actualizar").style.display = "flex";
     });

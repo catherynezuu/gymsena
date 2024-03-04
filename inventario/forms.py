@@ -24,7 +24,6 @@ class ActualizarInventarioForm(forms.Form):
     nombre = CharField(label='Nombre', max_length=100, min_length=2)
     categoria = ModelChoiceField(queryset=Categoria.objects.all(), label='Categoría')
     stock = IntegerField(label="Stock", min_value=1)
-    disponibilidad=IntegerField(label='Disponibles', min_value=0)
 
 class AgregarCategoriaForm(ModelForm):
     class Meta:

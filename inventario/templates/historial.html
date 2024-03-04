@@ -1,0 +1,47 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<main id="historial_main">
+    <section id="historial_section_forms">
+
+    </section>
+    <section id="historial_section_table">
+        <div class="table_container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nombre Persona</th>
+                  <th>Cédula</th>
+                  <th>Elemento</th>
+                  <th>Fecha Prestamo</th>
+                  <th>Cantidad prestada</th>
+                  <th>Fecha devolución</th>
+                  <th>Observaciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for elemento in transacciones %}
+                <tr data-registro-id="{{ elemento.id }}"  data-categoria-id="{{ elemento.categoria.id}}">
+                  <td>{{ elemento.id_usuario }}</td>
+                  <td>{{ elemento.id_usuario.cedula }}</td>
+                  <td>{{ elemento.id_inventario }}</td>
+                  <td>{{ elemento.fecha_prestamo|date:"h:i A, d/m/Y"}}</td>
+                  <td>{{ elemento.cantidad }}</td>
+                  {% if elemento.fecha_devolucion %}
+                    <td>{{ elemento.fecha_devolución|date:"h:i A, d/m/Y"}}</td>
+                  {% else %}
+                    <td>No devuelto</td>
+                  {% endif %}
+
+                  {% if elemento.observaciones %}
+                    <td>{{ elemento.observaciones }}</td>
+                  {% else %}
+                    <td>-</td>
+                  {% endif %}
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+    </section>
+</main>
+
+{% endblock %}

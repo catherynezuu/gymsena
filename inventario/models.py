@@ -11,7 +11,7 @@ class Categoria(models.Model):
 class Inventario(models.Model):
     codigo=models.BigIntegerField()
     nombre=models.CharField(max_length=100)
-    categoria=models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    categoria=models.ForeignKey(Categoria, on_delete=models.RESTRICT)
     stock=models.IntegerField()
     disponibles=models.BigIntegerField()
     descripcion= models.CharField(max_length=200, blank=True, null=True)

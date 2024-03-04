@@ -24,6 +24,9 @@ urlpatterns = [
     path('signin/', views.signin, name='signin'),
 
     path('', views.home, name='home'),
+    path('prestamo/', views.prestamo, name="prestamo"),
+    path('devolucion/',views.devolucion, name='devolucion'),
+    path('agregar_usuario/', views.agregar_usuario, name='agregar_usuario'),
 
     path('inventario/', views.inventario, name='inventario'),
     path('agregar_inventario', views.agregar_inventario, name='agregar_inventario'),
@@ -35,9 +38,5 @@ urlpatterns = [
     path('eliminar_categoria/', views.eliminar_categoria, name='eliminar_categoria'),
     path('actualizar_categoria/', views.actualizar_categoria, name='actualizar_categoria'),
 
-    path('agregar_usuario/', views.agregar_usuario, name='agregar_usuario'),
-
-    path('prestamo/', views.prestamo, name="prestamo"),
-    path('registro_prestamos/',views.registro_prestamos, name='registro_prestamos'),
-    path('devolucion/',views.devolucion, name='devolucion')
+    path('historial/',views.historial, name='historial'),
 ]
