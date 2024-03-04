@@ -25,8 +25,9 @@
                   <td>{{ elemento.id_inventario }}</td>
                   <td>{{ elemento.fecha_prestamo|date:"h:i A, d/m/Y"}}</td>
                   <td>{{ elemento.cantidad }}</td>
+
                   {% if elemento.fecha_devolucion %}
-                    <td>{{ elemento.fecha_devolución|date:"h:i A, d/m/Y"}}</td>
+                    <td>{{ elemento.fecha_devolucion|date:"h:i A, d/m/Y"}}</td>
                   {% else %}
                     <td>No devuelto</td>
                   {% endif %}

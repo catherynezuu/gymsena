@@ -7,7 +7,7 @@ from django.forms import modelformset_factory
 from django.db import IntegrityError
 from .forms import *
 from .models import *
-from django.http import JsonResponse
+from datetime import datetime
 
 
 # pagina principal y prestamos
@@ -29,8 +29,8 @@ def prestamo(request):
                 messages.error(request, f'{field}: {error}')
         return redirect('inventario')
 
-    prestamo_nombre = form.cleaned_data["nombre_elemento"]
-    objecto_inventario = Inventario.objects.get(nombre=prestamo_nombre)
+    elemento = form.cleaned_data["nombre_elemento"]
+    objecto_inventario = Inventario.objects.get(nombre=elemento)
 
     cantidad_form = form.cleaned_data['cantidad']
     if cantidad_form > objecto_inventario.disponibles:
@@ -43,9 +43,17 @@ def prestamo(request):
     except:
         messages.error(request, 'Cédula de usuario no encontrada')
         return redirect('home')
+    
+    try:
+        prestado = Transacciones.objects.get(id_inventario=objecto_inventario, id_usuario=usuario, fecha_devolucion=None)
+        if prestado:
+            messages.error(request, f"No se puede prestar el elemento '{objecto_inventario}' hasta que devuelva los prestados anteriormente")
+            return redirect('home')
+    except:
+        pass
 
     objeto_transaccion = Transacciones()
-    objeto_transaccion.id_inventario = prestamo_nombre
+    objeto_transaccion.id_inventario = elemento
     objeto_transaccion.id_usuario = usuario
     objeto_transaccion.cantidad = cantidad_form
 
@@ -81,7 +89,29 @@ def devolucion(request):
     except:
         messages.error(request, 'Cédula de usuario no encontrada')
         return redirect('home')
+    
+    objeto = form.cleaned_data['codigo_inventario']
+    
+    try:
+        transaccion = Transacciones.objects.get(fecha_devolucion=None, id_inventario=objeto, id_usuario=usuario)
+    except:
+        messages.error(request, 'No hay préstamos abiertos de esta persona')
+        return redirect('home') 
 
+    try:
+        transaccion.fecha_devolucion = datetime.now()
+        transaccion.observaciones = form.cleaned_data["observaciones"]
+        transaccion.save()
+        objecto_inventario = Inventario.objects.get(id=objeto.id)
+        objecto_inventario.disponibles += transaccion.cantidad
+        objecto_inventario.save()
+
+        messages.success(request, 'Elemento devuelto correctamente')
+        return redirect('home')
+    except:
+        messages.error(request, 'Ha ocurrido un error inesperado')
+        return redirect('home')
+    
     return redirect('home')
 
 # cerrar sesion

@@ -51,9 +51,10 @@
         <table>
           <thead>
             <tr>
-              <th>Nombre</th>
+              <th>Elemento</th>
               <th>Código</th>
-              <th>Categoría</th>
+              <th>Cédula</th>
+              <th>Nombre</th>
               <th>Fecha Préstamo</th>
             </tr>
           </thead>
@@ -62,7 +63,8 @@
             <tr>
               <td>{{ elemento.id_inventario.nombre }}</td>
               <td>{{ elemento.id_inventario.codigo }}</td>
-              <td>{{ elemento.id_inventario.categoria }}</td>
+              <td>{{ elemento.id_usuario.cedula }}</td>
+              <td>{{ elemento.id_usuario }}</td>
               <td>{{ elemento.fecha_prestamo|date:"h:i A, d/m/Y"}}</td>
             </tr>
             {% endfor %}

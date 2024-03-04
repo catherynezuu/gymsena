@@ -439,6 +439,7 @@ table form {
   align-items: center;
   justify-content: space-evenly;
   height: 100%;
+  width: 40%;
 }
 
 #abrir_modal_usuario {
@@ -548,6 +549,10 @@ table form {
 #form_switch_main form div label {
   display: flex;
   align-items: center;
+}
+
+#home_section_table{
+  width: 60%;
 }
 
 #home_section_table_top {

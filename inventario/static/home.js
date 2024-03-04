@@ -19,14 +19,16 @@ document.addEventListener("DOMContentLoaded", function () {
         .querySelector("td:first-child")
         .textContent.toLowerCase();
       const codigoFila = fila.querySelector("td:nth-child(2)").textContent;
-      const categoriaFila = fila
-        .querySelector("td:nth-child(3)")
+      const cedulaFila = fila.querySelector("td:nth-child(3)").textContent;
+      const nombreFila = fila
+        .querySelector("td:nth-child(4)")
         .textContent.toLowerCase();
 
       if (
         textoFila.includes(filtro) ||
         codigoFila.includes(filtro) ||
-        categoriaFila.includes(filtro)
+        cedulaFila.includes(filtro) ||
+        nombreFila.includes(filtro)
       ) {
         fila.style.display = "";
       } else {
@@ -42,35 +44,34 @@ document.addEventListener("DOMContentLoaded", function () {
     filtrarTabla();
   });
 
-
   const btnSwitchPrestamos = document.getElementById("switch_prestamos");
-  btnSwitchPrestamos.classList.add('button_switch_active')
+  btnSwitchPrestamos.classList.add("button_switch_active");
 
   const btnSwitchDevoluciones = document.getElementById("switch_devoluciones");
-  btnSwitchDevoluciones.classList.add('button_switch_deactive')
+  btnSwitchDevoluciones.classList.add("button_switch_deactive");
 
   const formPrestamos = document.getElementById("prestamos_form");
   const formDevoluciones = document.getElementById("devoluciones_form");
 
-  btnSwitchPrestamos.addEventListener('click', function(){
-      formPrestamos.style.display = 'grid';
-      formDevoluciones.style.display = 'none';
+  btnSwitchPrestamos.addEventListener("click", function () {
+    formPrestamos.style.display = "grid";
+    formDevoluciones.style.display = "none";
 
-      btnSwitchPrestamos.classList.remove('button_switch_deactive')
-      btnSwitchPrestamos.classList.add('button_switch_active')
+    btnSwitchPrestamos.classList.remove("button_switch_deactive");
+    btnSwitchPrestamos.classList.add("button_switch_active");
 
-      btnSwitchDevoluciones.classList.remove('button_switch_active')
-      btnSwitchDevoluciones.classList.add('button_switch_deactive')
-  })
+    btnSwitchDevoluciones.classList.remove("button_switch_active");
+    btnSwitchDevoluciones.classList.add("button_switch_deactive");
+  });
 
-  btnSwitchDevoluciones.addEventListener('click', function(){
-    formPrestamos.style.display = 'none';
-    formDevoluciones.style.display = 'grid';
+  btnSwitchDevoluciones.addEventListener("click", function () {
+    formPrestamos.style.display = "none";
+    formDevoluciones.style.display = "grid";
 
-    btnSwitchPrestamos.classList.remove('button_switch_active')
-    btnSwitchPrestamos.classList.add('button_switch_deactive')
+    btnSwitchPrestamos.classList.remove("button_switch_active");
+    btnSwitchPrestamos.classList.add("button_switch_deactive");
 
-    btnSwitchDevoluciones.classList.remove('button_switch_deactive')
-    btnSwitchDevoluciones.classList.add('button_switch_active')
-  })
+    btnSwitchDevoluciones.classList.remove("button_switch_deactive");
+    btnSwitchDevoluciones.classList.add("button_switch_active");
+  });
 });

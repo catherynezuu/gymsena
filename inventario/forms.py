@@ -8,8 +8,8 @@ class PrestamosForm(forms.Form):
     cantidad = IntegerField(label="Cantidad", min_value=1)
 
 class DevolucionesForm(forms.Form):
-    codigo_inventario = ModelChoiceField(queryset=Inventario.objects.all(), label="Nombre elemento", empty_label="")
     cedula_usuario = IntegerField(label='Cedula del usuario')
+    codigo_inventario = ModelChoiceField(queryset=Inventario.objects.all(), label="Nombre elemento", empty_label="")
     observaciones = CharField(label='Observaciones', max_length=200, required=False)
 
 
