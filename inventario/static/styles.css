@@ -2,7 +2,7 @@
   --green-primary: #2cdf62;
   --green-secondary: #00ca76;
   --gray-primary: #aaaaaa;
-  --gray-secondary: #e1e0e0;
+  --gray-secondary: #d2d0d0;
   --red-primary: #f52600;
 }
 
@@ -343,7 +343,8 @@ table td {
   align-items: center;
 }
 
-table td:not(:last-child), table th:not(:last-child) {
+table td:not(:last-child),
+table th:not(:last-child) {
   border-right: 1px solid var(--gray-primary);
 }
 
@@ -418,14 +419,116 @@ table form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
   height: 100%;
 }
 
-#home_section_forms > section {
-  height: 100%;
+#abrir_modal_usuario {
+  width: 300px;
+  height: 60px;
+  font-size: x-large;
+  background-color: var(--green-primary);
+  border: 4px solid var(--gray-primary);
+  border-radius: 50px;
+  color: white;
+}
+
+#form_switch {
+  border: 5px solid var(--gray-primary);
+  border-radius: 10px;
+  width: 600px;
+  max-width: 90%;
+}
+
+#form_switch_top {
   display: flex;
   justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+#form_switch_top button {
+  height: 60px;
+  width: 35%;
+  border: 3px solid var(--green-secondary);
+  font-size: 1.5em;
+}
+
+.button_switch_active {
+  background-color: var(--green-secondary);
+  color: white;
+}
+.button_switch_deactive {
+  background-color: white;
+  color: var(--gray-primary);
+}
+
+#form_switch_top :nth-child(1) {
+  border-radius: 50px 0px 0px 50px;
+}
+
+#form_switch_top :nth-child(2) {
+  border-radius: 0px 50px 50px 0px;
+}
+
+#form_switch_main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 350px;
+  font-size: 1.3em;
+}
+
+#form_switch_main form > button{
+  width: 50%;
+  place-self: center;
+  height: 100%;
+  padding: 0;
+  font-size: large;
+  background-color: white;
+  color: var(--green-primary);
+  border: 3px solid var(--gray-primary);
+  border-radius: 10px;
+}
+
+#form_switch_main > form > div input{
+  border: 3px solid var(--gray-secondary);
+  border-radius: 10px;
+  height: calc(100% - 6px);
+} 
+
+#form_switch_main > form > div :nth-child(2):not(input){
+  border: 3px solid var(--gray-secondary);
+  border-radius: 10px;
+  height: 100%;
+} 
+
+#prestamos_form {
+  display: grid;
+  height: 80%;
+  row-gap: 2em;
+  width: 90%;
+  grid-template-rows: repeat(4, 1fr);
+}
+
+#devoluciones_form {
+  display: none;
+  height: 80%;
+  row-gap: 2em;
+  width: 90%;
+}
+
+#devoluciones_form textarea {
+  resize: none;
+}
+
+#form_switch_main form div {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+#form_switch_main form div label {
+  display: flex;
   align-items: center;
 }
 
@@ -511,7 +614,7 @@ table form {
   align-items: top;
 }
 
-#inventario_section_main .table_container{
+#inventario_section_main .table_container {
   width: 1000px;
 }
 

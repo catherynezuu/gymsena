@@ -353,8 +353,6 @@ def devolucion(request):
         messages.error(request, 'Cédula de usuario no encontrada')
         return redirect('home')
     
-    
-    
     return redirect('home')
     
     

@@ -10,7 +10,7 @@ class PrestamosForm(forms.Form):
 class DevolucionesForm(forms.Form):
     codigo_inventario = ModelChoiceField(queryset=Inventario.objects.all(), label="Nombre elemento", empty_label="")
     cedula_usuario = IntegerField(label='Cedula del usuario')
-    observaciones = CharField(label='Observaciones', max_length=200, required=False, widget=Textarea(attrs={"rows":"5"}))
+    observaciones = CharField(label='Observaciones', max_length=200, required=False)
 
 
 class AgregarInventarioForm(ModelForm):

@@ -1,22 +1,30 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 <main id="home_main">
   <section id="home_section_forms">
-    <div>
-      <form id="prestamos_form" action="{% url 'prestamo' %}" method="post">
-        {%csrf_token %} {{formPrestamos}}
+    <button type="button" id="abrir_modal_usuario">Agregar usuario</button>
 
-        <button type="submit">enviar</button>
-      </form>
-    </div>
-    <div>
-      <form id="devoluciones_form" action="{% url 'devolucion' %}" method="post">
-        {%csrf_token %} {{formDevoluciones}}
+    <div id="form_switch">
+      <div id="form_switch_top">
+        <button id="switch_prestamos">Préstamos</button>
+        <button id="switch_devoluciones">Devoluciones</button>
+      </div>
+      <div id="form_switch_main">
+        <form id="prestamos_form" action="{% url 'prestamo' %}" method="post">
+          {%csrf_token %} {{formPrestamos}}
 
-        <button type="submit">devolver</button>
-      </form>
-    </div>
-    <div>
-      <button type="button" id="abrir_modal_usuario">Agregar usuario</button>
+          <button type="submit">Prestar</button>
+        </form>
+
+        <form
+          id="devoluciones_form"
+          action="{% url 'devolucion' %}"
+          method="post"
+        >
+          {%csrf_token %} {{formDevoluciones}}
+
+          <button type="submit">Devolver</button>
+        </form>
+      </div>
     </div>
   </section>
 
@@ -69,7 +77,11 @@
   <div class="modal_content">
     <span class="close">&times;</span>
     <h2>Registro de usuarios</h2>
-    <form method="POST" action="{% url 'agregar_usuario' %}" id="form_registro_usuarios">
+    <form
+      method="POST"
+      action="{% url 'agregar_usuario' %}"
+      id="form_registro_usuarios"
+    >
       {% csrf_token %} {{ formRegistroUsuario }}
       <button type="submit">Registrar</button>
     </form>
