@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-
-  //Código ocultar mensajes
+  // Ocultar mensajes automáticamente después de 5 segundos
   const info_messages = document.getElementsByClassName("message-element");
 
   function fadeOut(el, speed) {
@@ -16,16 +15,16 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   setTimeout(function () {
-    for (let i = 0; i < info_messages.length; i++) {
+    Array.from(info_messages).forEach(function (message, index) {
       setTimeout(function () {
-        fadeOut(info_messages[i], 50);
-      }, i * 100);
-    }
+        fadeOut(message, 50);
+      }, index * 100);
+    });
   }, 5000);
 
-  //código cerrar modales
-  var modals = document.querySelectorAll(".modal");
-  var cerrarModales = document.querySelectorAll(".close");
+  // Cerrar modales al hacer clic en el botón de cierre o fuera del modal
+  const modals = document.querySelectorAll(".modal");
+  const cerrarModales = document.querySelectorAll(".close");
 
   cerrarModales.forEach(function (cerrarModal) {
     cerrarModal.addEventListener("click", function () {
@@ -43,3 +42,4 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
