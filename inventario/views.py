@@ -256,21 +256,22 @@ def agregar_usuario(request):
 
 
 # inventario
-
 def inventario(request):
     inventario_info = Inventario.objects.all()
-    return render(request, 'inventario.html',
-                  {'form_agregar': AgregarInventarioForm, 'form_actualizar': ActualizarInventarioForm,
-                   'inventario': inventario_info})
+    context = {
+        'form_agregar': AgregarInventarioForm(),
+        'form_actualizar': ActualizarInventarioForm(),
+        'inventario': inventario_info
+    }
+    return render(request, 'inventario.html', context)
 
 
 def agregar_inventario(request):
-    if not request.method == 'POST':
+    if request.method != 'POST':
         messages.error(request, 'Método inválido')
         return redirect('inventario')
 
     form = AgregarInventarioForm(request.POST)
-
     if not form.is_valid():
         for field, errors in form.errors.items():
             for error in errors:
@@ -293,12 +294,9 @@ def agregar_inventario(request):
         messages.error(request, 'No se puede agregar, código ya existente')
         return redirect('inventario')
 
-    objeto_inventario = Inventario()
+    objeto_inventario = form.save(commit=False)
     objeto_inventario.nombre = nombre_inventario
-    objeto_inventario.codigo = codigo_inventario
-    objeto_inventario.stock = form.cleaned_data["stock"]
-    objeto_inventario.disponibles = form.cleaned_data["stock"]
-    objeto_inventario.categoria = form.cleaned_data["categoria"]
+    objeto_inventario.disponibles = objeto_inventario.stock
     objeto_inventario.save()
 
     messages.success(request, 'Elemento agregado correctamente')
@@ -306,23 +304,21 @@ def agregar_inventario(request):
 
 
 def actualizar_inventario(request):
-    if not request.method == 'POST':
+    if request.method != 'POST':
         messages.error(request, 'Método inválido')
         return redirect('inventario')
 
     form = ActualizarInventarioForm(request.POST)
-
     if not form.is_valid():
         for field, errors in form.errors.items():
             for error in errors:
                 messages.error(request, f'{field}: {error}')
         return redirect('inventario')
 
-    id_inventario = form.cleaned_data["id"]
-    nombre_inventario = form.cleaned_data["nombre"].lower()
-    codigo_inventario = form.cleaned_data["codigo"]
-    categoria = form.cleaned_data["categoria"]
-    stock = form.cleaned_data["stock"]
+    id_inventario = form.cleaned_data['id']
+    nombre_inventario = form.cleaned_data['nombre'].lower()
+    codigo_inventario = form.cleaned_data['codigo']
+    stock = form.cleaned_data['stock']
 
     if nombre_inventario.isnumeric():
         messages.error(
@@ -331,65 +327,45 @@ def actualizar_inventario(request):
 
     try:
         elemento = Inventario.objects.get(id=id_inventario)
-    except:
+    except Inventario.DoesNotExist:
         messages.error(request, 'Error, no se encontró el elemento')
         return redirect('inventario')
 
-    try:
-        elemento_encontrado_codigo = Inventario.objects.get(
-            codigo=codigo_inventario)
-        if elemento_encontrado_codigo.id != id_inventario:
-            messages.error(
-                request, 'Error, código ya existente, intente con otro')
-            return redirect('inventario')
-    except:
-        pass
+    if Inventario.objects.exclude(id=id_inventario).filter(codigo=codigo_inventario).exists():
+        messages.error(request, 'Error, código ya existente, intente con otro')
+        return redirect('inventario')
 
-    try:
-        elemento_encontrado_nombre = Inventario.objects.get(
-            nombre=nombre_inventario)
-
-        if elemento_encontrado_nombre.id != id_inventario:
-            messages.error(
-                request, 'Error, nombre ya existente, intente con otro')
-            return redirect('inventario')
-    except:
-        pass
+    if Inventario.objects.exclude(id=id_inventario).filter(nombre__iexact=nombre_inventario).exists():
+        messages.error(request, 'Error, nombre ya existente, intente con otro')
+        return redirect('inventario')
 
     prestados = elemento.stock - elemento.disponibles
     if stock < prestados:
         messages.error(
-            request, 'Error, El nuevo stock no puede ser menor a la cantidad prestada')
+            request, 'Error, el nuevo stock no puede ser menor a la cantidad prestada')
         return redirect('inventario')
 
-    try:
-        elemento.nombre = nombre_inventario
-        elemento.codigo = codigo_inventario
-        elemento.categoria = categoria
-        elemento.stock = stock
-        elemento.disponibles = stock - prestados
-        elemento.save()
-        messages.success(request, 'Elemento actualizado correctamnete')
-        return redirect('inventario')
-    except:
-        messages.error(request, 'Ha ocurrido un error inesperado')
-        return redirect('inventario')
+    elemento.nombre = nombre_inventario
+    elemento.codigo = codigo_inventario
+    elemento.stock = stock
+    elemento.disponibles = stock - prestados
+    elemento.save()
+
+    messages.success(request, 'Elemento actualizado correctamente')
+    return redirect('inventario')
 
 
 def eliminar_inventario(request):
     if request.method == 'POST':
         registro_id = request.POST.get('id')
-
         try:
             registro = Inventario.objects.get(id=registro_id)
             registro.delete()
-            messages.success(request, 'Elemento eliminado correctamnete')
-            return redirect('inventario')
-
+            messages.success(request, 'Elemento eliminado correctamente')
+        except Inventario.DoesNotExist:
+            messages.error(request, 'No se encontró el elemento')
         except:
             messages.error(request, 'Ha ocurrido un error inesperado')
-            return redirect('inventario')
-
     return redirect('inventario')
 
 
