@@ -17,58 +17,56 @@ def home(request):
 
 
 def prestamo(request):
-    if not request.method == 'POST':
+    if request.method != 'POST':
         messages.error(request, 'Método inválido')
         return redirect('home')
 
     form = PrestamosForm(request.POST)
-
     if not form.is_valid():
         for field, errors in form.errors.items():
             for error in errors:
                 messages.error(request, f'{field}: {error}')
         return redirect('inventario')
 
-    elemento = form.cleaned_data["nombre_elemento"]
-    objecto_inventario = Inventario.objects.get(nombre=elemento)
-
+    nombre_elemento = form.cleaned_data["nombre_elemento"]
+    cedula_usuario = form.cleaned_data['cedula_usuario']
     cantidad_form = form.cleaned_data['cantidad']
+
+    try:
+        objecto_inventario = Inventario.objects.get(nombre=nombre_elemento)
+    except Inventario.DoesNotExist:
+        messages.error(request, 'Elemento no encontrado en el inventario')
+        return redirect('home')
+
     if cantidad_form > objecto_inventario.disponibles:
-        messages.error(request, 'No hay disponibilidad')
+        messages.error(request, 'No hay suficientes elementos disponibles')
         return redirect('home')
 
     try:
-        usuario = Usuarios.objects.get(
-            cedula=form.cleaned_data['cedula_usuario'])
-    except:
+        usuario = Usuarios.objects.get(cedula=cedula_usuario)
+    except Usuarios.DoesNotExist:
         messages.error(request, 'Cédula de usuario no encontrada')
         return redirect('home')
 
     try:
         prestado = Transacciones.objects.get(
             id_inventario=objecto_inventario, id_usuario=usuario, fecha_devolucion=None)
-        if prestado:
-            messages.error(request, f"No se puede prestar el elemento '{
-                           objecto_inventario}' hasta que devuelva los prestados anteriormente")
-            return redirect('home')
-    except:
+        messages.error(request, f"No se puede prestar el elemento '{objecto_inventario}' hasta que devuelva los prestados anteriormente")
+        return redirect('home')
+    except Transacciones.DoesNotExist:
         pass
 
-    objeto_transaccion = Transacciones()
-    objeto_transaccion.id_inventario = elemento
-    objeto_transaccion.id_usuario = usuario
-    objeto_transaccion.cantidad = cantidad_form
+    objeto_transaccion = Transacciones(
+        id_inventario=objecto_inventario, id_usuario=usuario, cantidad=cantidad_form)
 
     try:
         objeto_transaccion.save()
         objecto_inventario.disponibles -= cantidad_form
         objecto_inventario.save()
-    except:
-        messages.error(
-            request, 'Ha ocurrido un error registrando la transaccion')
-        return redirect('home')
-
-    messages.success(request, "Elemento prestado correctamente")
+        messages.success(request, "Elemento prestado correctamente")
+    except Exception as e:
+        messages.error(request, f'Ha ocurrido un error registrando la transacción: {str(e)}')
+    
     return redirect('home')
 
 
