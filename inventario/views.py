@@ -51,7 +51,8 @@ def prestamo(request):
     try:
         prestado = Transacciones.objects.get(
             id_inventario=objecto_inventario, id_usuario=usuario, fecha_devolucion=None)
-        messages.error(request, f"No se puede prestar el elemento '{objecto_inventario}' hasta que devuelva los prestados anteriormente")
+        messages.error(request, f"No se puede prestar el elemento '{
+                       objecto_inventario}' hasta que devuelva los prestados anteriormente")
         return redirect('home')
     except Transacciones.DoesNotExist:
         pass
@@ -65,8 +66,9 @@ def prestamo(request):
         objecto_inventario.save()
         messages.success(request, "Elemento prestado correctamente")
     except Exception as e:
-        messages.error(request, f'Ha ocurrido un error registrando la transacción: {str(e)}')
-    
+        messages.error(
+            request, f'Ha ocurrido un error registrando la transacción: {str(e)}')
+
     return redirect('home')
 
 
@@ -83,7 +85,8 @@ def devolucion(request):
         return redirect('home')
 
     try:
-        usuario = Usuarios.objects.get(cedula=form.cleaned_data['cedula_usuario'])
+        usuario = Usuarios.objects.get(
+            cedula=form.cleaned_data['cedula_usuario'])
     except Usuarios.DoesNotExist:
         messages.error(request, 'Cédula de usuario no encontrada')
         return redirect('home')
@@ -109,9 +112,8 @@ def devolucion(request):
         messages.success(request, 'Elemento devuelto correctamente')
     except Exception as e:
         messages.error(request, f'Ha ocurrido un error inesperado: {str(e)}')
-    
-    return redirect('home')
 
+    return redirect('home')
 
 
 # cerrar sesion
@@ -141,9 +143,15 @@ def signin(request):
 def categorias(request):
     form_agregar = AgregarCategoriaForm()
     form_actualizar = ActualizarCategoriaForm()
-    list_items = Categoria.objects.all()
+    items = Categoria.objects.all()
 
-    return render(request, 'categorias.html', {'form_agregar': form_agregar, 'form_actualizar': form_actualizar, 'items': list_items})
+    context = {
+        'form_agregar': form_agregar,
+        'form_actualizar': form_actualizar,
+        'items': items
+    }
+
+    return render(request, 'categorias.html', context)
 
 
 def agregar_categoria(request):
