@@ -155,12 +155,11 @@ def categorias(request):
 
 
 def agregar_categoria(request):
-    if not request.method == 'POST':
+    if request.method != 'POST':
         messages.error(request, 'Método inválido')
         return redirect('categorias')
 
     form = AgregarCategoriaForm(request.POST)
-
     if not form.is_valid():
         for field, errors in form.errors.items():
             for error in errors:
@@ -168,27 +167,24 @@ def agregar_categoria(request):
         return redirect('categorias')
 
     nombre_categoria = form.cleaned_data['nombre'].lower()
-
     if any(map(str.isdigit, nombre_categoria)):
         messages.error(request, 'Nombre inválido, no se permiten números')
         return redirect('categorias')
 
     if Categoria.objects.filter(nombre__iexact=nombre_categoria).exists():
         messages.error(request, 'No se puede agregar, categoría ya existente')
-        return redirect('categorias')
     else:
         form.save()
-        messages.success(request, 'Categoria agregada correctamnete')
-        return redirect('categorias')
+        messages.success(request, 'Categoría agregada correctamente')
+    return redirect('categorias')
 
 
 def actualizar_categoria(request):
-    if not request.method == 'POST':
+    if request.method != 'POST':
         messages.error(request, 'Método inválido')
         return redirect('categorias')
 
     form = ActualizarCategoriaForm(request.POST)
-
     if not form.is_valid():
         for field, errors in form.errors.items():
             for error in errors:
@@ -197,46 +193,36 @@ def actualizar_categoria(request):
 
     id_categoria = form.cleaned_data['id']
     nombre_categoria = form.cleaned_data['nombre'].lower()
-
     if any(map(str.isdigit, nombre_categoria)):
         messages.error(request, 'Nombre inválido, no se permiten números')
-        return redirect('categorias')
-
-    try:
-        Categoria.objects.get(id=id_categoria)
-    except Categoria.DoesNotExist:
-        messages.error(request, 'Error, no se encontró la categoría')
         return redirect('categorias')
 
     try:
         registro = Categoria.objects.get(id=id_categoria)
         registro.nombre = nombre_categoria
         registro.save()
-        messages.success(request, 'Categoria actualizada correctamnete')
-        return redirect('categorias')
+        messages.success(request, 'Categoría actualizada correctamente')
+    except Categoria.DoesNotExist:
+        messages.error(request, 'Error, no se encontró la categoría')
     except:
         messages.error(request, 'Ha ocurrido un error inesperado')
-        return redirect('categorias')
+    return redirect('categorias')
 
 
 def eliminar_categoria(request):
     if request.method == 'POST':
         registro_id = request.POST.get('id')
-
         try:
             registro = Categoria.objects.get(id=registro_id)
             registro.delete()
-            messages.success(request, 'Categoria eliminada correctamnete')
-            return redirect('categorias')
-
+            messages.success(request, 'Categoría eliminada correctamente')
+        except Categoria.DoesNotExist:
+            messages.error(request, 'No se encontró la categoría')
         except IntegrityError:
             messages.error(
-                request, 'No puede eliminar la categoría, debido a que tiene elementos relacionados')
-            return redirect('categorias')
+                request, 'No se puede eliminar la categoría, debido a que tiene elementos relacionados')
         except:
-            messages.error(request, 'ha ocurrido un error inesperado')
-            return redirect('categorias')
-
+            messages.error(request, 'Ha ocurrido un error inesperado')
     return redirect('categorias')
 
 
