@@ -1,48 +1,74 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 <main id="historial_main">
-    <section id="historial_section_forms">
+  <section id="historial_section_forms">
+    <form id="filter_form">
+      <div class="filter_form_top">
+        <h2>Filtrar Registros</h2>
+      </div>
+      <section>
+        <div>
+          <label for="input_cedula">Documento</label>
+          <input type="number" id="input_cedula" min="1"/>
+          <span id="clean_document">&times;</span>
+        </div>
+        <div>
+          <label for="input_fecha_fin">Fecha Inicio:</label>
+          <input type="date" id="input_fecha_inicio" max="today"/>
+          <span id="clean_start">&times;</span>
+        </div>
+        <div>
+          <label for="input_fecha_fin">Fecha Fin:</label>
+          <input type="date" id="input_fecha_fin" />
+          <span id="clean_end">&times;</span>
+        </div>
+        <div>
+          <button id="clean_form">Limpiar</button>
+          <button type="submit">Filtrar</button>
+        </div>
+      </section>
+    </form>
+  </section>
 
-    </section>
-    <section id="historial_section_table">
-        <div class="table_container">
-            <table>
-              <thead>
-                <tr>
-                  <th>Nombre Persona</th>
-                  <th>Cédula</th>
-                  <th>Elemento</th>
-                  <th>Fecha Prestamo</th>
-                  <th>Cantidad prestada</th>
-                  <th>Fecha devolución</th>
-                  <th>Observaciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for elemento in transacciones %}
-                <tr data-registro-id="{{ elemento.id }}"  data-categoria-id="{{ elemento.categoria.id}}">
-                  <td>{{ elemento.id_usuario }}</td>
-                  <td>{{ elemento.id_usuario.cedula }}</td>
-                  <td>{{ elemento.id_inventario }}</td>
-                  <td>{{ elemento.fecha_prestamo|date:"h:i A, d/m/Y"}}</td>
-                  <td>{{ elemento.cantidad }}</td>
+  <section id="historial_section_table">
+    <div class="table_container">
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre Persona</th>
+            <th>Cédula</th>
+            <th>Elemento</th>
+            <th>Fecha Prestamo</th>
+            <th>Cantidad prestada</th>
+            <th>Fecha devolución</th>
+            <th>Observaciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for elemento in transacciones %}
+          <tr data-inicio='{{ elemento.fecha_prestamo|date:"Y-m-d" }}'>
+            <td>{{ elemento.id_usuario }}</td>
+            <td>{{ elemento.id_usuario.cedula }}</td>
+            <td>{{ elemento.id_inventario }}</td>
+            <td>{{ elemento.fecha_prestamo|date:"d/m/Y, h:i A"}}</td>
+            <td>{{ elemento.cantidad }}</td>
 
-                  {% if elemento.fecha_devolucion %}
-                    <td>{{ elemento.fecha_devolucion|date:"h:i A, d/m/Y"}}</td>
-                  {% else %}
-                    <td>No devuelto</td>
-                  {% endif %}
-
-                  {% if elemento.observaciones %}
-                    <td>{{ elemento.observaciones }}</td>
-                  {% else %}
-                    <td>-</td>
-                  {% endif %}
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-    </section>
+            {% if elemento.fecha_devolucion %}
+            <td>{{ elemento.fecha_devolucion|date:"d/m/Y, h:i A"}}</td>
+            {% else %}
+            <td>No devuelto</td>
+            {% endif %} {% if elemento.observaciones %}
+            <td><p>{{ elemento.observaciones }}</p></td>
+            {% else %}
+            <td>-</td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
 </main>
+
+<script src="{% static 'historial.js' %}"></script>
 
 {% endblock %}

@@ -359,6 +359,7 @@ table td {
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 table td:not(:last-child),
@@ -514,6 +515,11 @@ table form {
   border: 3px solid var(--gray-secondary);
   border-radius: 10px;
   height: calc(100% - 6px);
+  font-size: 20px;
+}
+
+#form_switch_main > form > div select{
+  font-size: 20px;
 }
 
 #form_switch_main > form > div :nth-child(2):not(input) {
@@ -537,10 +543,6 @@ table form {
   width: 90%;
 }
 
-#devoluciones_form textarea {
-  resize: none;
-}
-
 #form_switch_main form div {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -551,7 +553,7 @@ table form {
   align-items: center;
 }
 
-#home_section_table{
+#home_section_table {
   width: 60%;
 }
 
@@ -595,7 +597,6 @@ table form {
   border-radius: 5px;
   border: 2px solid var(--gray-primary);
   color: white;
-  place-self: left;
 }
 
 #categorias_section_main {
@@ -643,31 +644,141 @@ table form {
 
 /* END INVENTARIO */
 
-
 /* HISTORIAL */
 
-#historial_main{
+#historial_main {
   height: 90vh;
   width: 100vw;
   display: flex;
 }
 
-#historial_section_forms{
+#historial_section_forms {
   width: 30vw;
   height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-#historial_section_table{
+#filter_form {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  width: 400px;
+  max-width: 90%;
+  border: 5px solid var(--gray-primary);
+  border-radius: 10px;
+  font-size: 1.3em;
+}
+
+.filter_form_top{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2em;
+  text-align: center;
+}
+
+#filter_form h2{
+  margin: 0;
+}
+
+#filter_form section{
+  display: grid;
+  row-gap: 2em;
+}
+
+#filter_form section > :not(:last-child){
+  display: grid;
+  place-items: center;
+  grid-template-columns: 1fr 1fr 40px;
+  gap: 10px;
+}
+
+#filter_form input {
+  border: 3px solid var(--gray-secondary);
+  border-radius: 10px;
+  height: 32px;
+  width: 100%;
+  font-size: 20px;
+}
+
+#filter_form span{
+  display: none;
+  height: 100%;
+  font-size: 30px;
+  color: red;
+}
+
+#filter_form section > :last-child{
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 1em;
+}
+
+#filter_form section :last-child button{
+  font-size: large;
+  border-radius: 5px;
+  border: 2px solid var(--gray-primary);
+  color: white;
+  padding: 10px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#filter_form section :last-child :first-child{
+  background-color: var(--red-primary);
+  width: 30%;
+}
+
+#filter_form section :last-child :last-child{
+  background-color: var(--green-primary);
+  width: 60%;
+}
+
+#historial_section_table {
   width: 70vw;
   height: 90vh;
   display: flex;
   justify-content: center;
-  align-items: top;
+  align-items: center;
 }
 
-#historial_section_table .table_container{
+#historial_section_table .table_container {
   width: 90%;
   max-width: 90%;
+  height: 80%;
+}
+
+#historial_section_table table tr {
+  word-break: break-word;
+}
+
+#historial_section_table table tbody tr :nth-child(7) {
+  overflow: hidden;
+}
+
+#historial_section_table table tbody tr :nth-child(7):has(> :hover) {
+  overflow: visible;
+}
+
+#historial_section_table table tbody tr :nth-child(7) p {
+  align-self: flex-start;
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  position: unset;
+  padding: 5px;
+}
+
+#historial_section_table table tbody tr :nth-child(7) p:hover {
+  height: fit-content;
+  background-color: var(--green-primary);
+  border-radius: 5px;
+  z-index: 3;
+  overflow: auto;
 }
 
 /* END HISTORIAL */

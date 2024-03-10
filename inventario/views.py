@@ -12,7 +12,8 @@ from datetime import datetime
 # pagina principal y prestamos
 def home(request):
     transacciones_info = Transacciones.objects.filter(fecha_devolucion=None)
-    return render(request, 'home.html', {'formPrestamos': PrestamosForm, 'formDevoluciones': DevolucionesForm, 'formRegistroUsuario': RegistroForm, 'transacciones': transacciones_info})
+    cedulas = Usuarios.objects.all()
+    return render(request, 'home.html', {'formPrestamos': PrestamosForm, 'formDevoluciones': DevolucionesForm, 'formRegistroUsuario': RegistroForm, 'transacciones': transacciones_info, 'cedulas': cedulas})
 
 
 def prestamo(request):
@@ -42,11 +43,13 @@ def prestamo(request):
     except:
         messages.error(request, 'Cédula de usuario no encontrada')
         return redirect('home')
-    
+
     try:
-        prestado = Transacciones.objects.get(id_inventario=objecto_inventario, id_usuario=usuario, fecha_devolucion=None)
+        prestado = Transacciones.objects.get(
+            id_inventario=objecto_inventario, id_usuario=usuario, fecha_devolucion=None)
         if prestado:
-            messages.error(request, f"No se puede prestar el elemento '{objecto_inventario}' hasta que devuelva los prestados anteriormente")
+            messages.error(request, f"No se puede prestar el elemento '{
+                           objecto_inventario}' hasta que devuelva los prestados anteriormente")
             return redirect('home')
     except:
         pass
@@ -88,14 +91,15 @@ def devolucion(request):
     except:
         messages.error(request, 'Cédula de usuario no encontrada')
         return redirect('home')
-    
+
     objeto = form.cleaned_data['codigo_inventario']
-    
+
     try:
-        transaccion = Transacciones.objects.get(fecha_devolucion=None, id_inventario=objeto, id_usuario=usuario)
+        transaccion = Transacciones.objects.get(
+            fecha_devolucion=None, id_inventario=objeto, id_usuario=usuario)
     except:
         messages.error(request, 'No hay préstamos abiertos de esta persona')
-        return redirect('home') 
+        return redirect('home')
 
     try:
         transaccion.fecha_devolucion = datetime.now()
@@ -110,7 +114,7 @@ def devolucion(request):
     except:
         messages.error(request, 'Ha ocurrido un error inesperado')
         return redirect('home')
-    
+
     return redirect('home')
 
 # cerrar sesion
@@ -251,13 +255,16 @@ def agregar_usuario(request):
         messages.error(request, "Cédula ya registrada")
         return redirect('home')
 
-    nombre_usuario = form.cleaned_data['nombre']
+    nombre_usuario = form.cleaned_data['nombre'].lower()
 
     if nombre_usuario.isnumeric():
         messages.error(request, "No se permiten solo números en el nombre")
         return redirect('home')
 
-    usuario = form.save()
+    usuario = Usuarios()
+    usuario.cedula = cedula_usuario
+    usuario.nombre = nombre_usuario
+    usuario.save()
     messages.success(request, 'Usuario registrado correctamente')
     return redirect('home')
 
