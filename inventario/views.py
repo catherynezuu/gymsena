@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
+from django.utils import timezone
 from .forms import *
 from .models import *
 from datetime import datetime
@@ -101,7 +102,7 @@ def devolucion(request):
         return redirect('home')
 
     try:
-        transaccion.fecha_devolucion = datetime.now()
+        transaccion.fecha_devolucion = timezone.now()
         transaccion.observaciones = form.cleaned_data["observaciones"]
         transaccion.save()
 
