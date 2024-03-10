@@ -91,7 +91,7 @@ def devolucion(request):
         messages.error(request, 'Cédula de usuario no encontrada')
         return redirect('home')
 
-    objeto_id = form.cleaned_data['codigo_inventario']
+    objeto_id = form.cleaned_data['codigo_inventario'].id
 
     try:
         transaccion = Transacciones.objects.get(

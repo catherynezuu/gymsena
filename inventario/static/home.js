@@ -1,28 +1,26 @@
 document.addEventListener("DOMContentLoaded", function () {
   const botonAgregarUsuario = document.getElementById("abrir_modal_usuario");
-
-  botonAgregarUsuario.addEventListener("click", function () {
-    const modal_agrgar_usuario = document.getElementById("home_modal");
-
-    modal_agrgar_usuario.style.display = "flex";
-  });
-
+  const modal_agrgar_usuario = document.getElementById("home_modal");
   const buscarCategoriaInput = document.getElementById("buscar_home_input");
   const limpiarBtn = document.getElementById("boton_limpiar_busqueda");
   const filasTabla = document.querySelectorAll("tbody tr");
+  const btnSwitchPrestamos = document.getElementById("switch_prestamos");
+  const btnSwitchDevoluciones = document.getElementById("switch_devoluciones");
+  const formPrestamos = document.getElementById("prestamos_form");
+  const formDevoluciones = document.getElementById("devoluciones_form");
+
+  botonAgregarUsuario.addEventListener("click", function () {
+    modal_agrgar_usuario.style.display = "flex";
+  });
 
   function filtrarTabla() {
     const filtro = buscarCategoriaInput.value.toLowerCase();
 
     filasTabla.forEach(function (fila) {
-      const textoFila = fila
-        .querySelector("td:first-child")
-        .textContent.toLowerCase();
-      const codigoFila = fila.querySelector("td:nth-child(2)").textContent;
-      const cedulaFila = fila.querySelector("td:nth-child(3)").textContent;
-      const nombreFila = fila
-        .querySelector("td:nth-child(4)")
-        .textContent.toLowerCase();
+      const textoFila = fila.cells[0].textContent.toLowerCase();
+      const codigoFila = fila.cells[1].textContent;
+      const cedulaFila = fila.cells[2].textContent;
+      const nombreFila = fila.cells[3].textContent.toLowerCase();
 
       if (
         textoFila.includes(filtro) ||
@@ -44,34 +42,26 @@ document.addEventListener("DOMContentLoaded", function () {
     filtrarTabla();
   });
 
-  const btnSwitchPrestamos = document.getElementById("switch_prestamos");
-  btnSwitchPrestamos.classList.add("button_switch_active");
+  function toggleForm(formToShow, formToHide, activeBtn, deactiveBtn) {
+    formToShow.style.display = "grid";
+    formToHide.style.display = "none";
 
-  const btnSwitchDevoluciones = document.getElementById("switch_devoluciones");
-  btnSwitchDevoluciones.classList.add("button_switch_deactive");
+    activeBtn.classList.remove("button_switch_deactive");
+    activeBtn.classList.add("button_switch_active");
 
-  const formPrestamos = document.getElementById("prestamos_form");
-  const formDevoluciones = document.getElementById("devoluciones_form");
+    deactiveBtn.classList.remove("button_switch_active");
+    deactiveBtn.classList.add("button_switch_deactive");
+  }
 
   btnSwitchPrestamos.addEventListener("click", function () {
-    formPrestamos.style.display = "grid";
-    formDevoluciones.style.display = "none";
-
-    btnSwitchPrestamos.classList.remove("button_switch_deactive");
-    btnSwitchPrestamos.classList.add("button_switch_active");
-
-    btnSwitchDevoluciones.classList.remove("button_switch_active");
-    btnSwitchDevoluciones.classList.add("button_switch_deactive");
+    toggleForm(formPrestamos, formDevoluciones, btnSwitchPrestamos, btnSwitchDevoluciones);
   });
 
   btnSwitchDevoluciones.addEventListener("click", function () {
-    formPrestamos.style.display = "none";
-    formDevoluciones.style.display = "grid";
-
-    btnSwitchPrestamos.classList.remove("button_switch_active");
-    btnSwitchPrestamos.classList.add("button_switch_deactive");
-
-    btnSwitchDevoluciones.classList.remove("button_switch_deactive");
-    btnSwitchDevoluciones.classList.add("button_switch_active");
+    toggleForm(formDevoluciones, formPrestamos, btnSwitchDevoluciones, btnSwitchPrestamos);
   });
+
+  // Agregar clase inicial a los botones de switch
+  btnSwitchPrestamos.classList.add("button_switch_active");
+  btnSwitchDevoluciones.classList.add("button_switch_deactive");
 });
