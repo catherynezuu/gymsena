@@ -230,10 +230,9 @@ def eliminar_categoria(request):
 def agregar_usuario(request):
     if request.method != 'POST':
         messages.error(request, "Método inválido")
-        return ('home')
+        return redirect('home')
 
     form = RegistroForm(request.POST)
-
     if not form.is_valid():
         for field, errors in form.errors.items():
             for error in errors:
@@ -241,20 +240,16 @@ def agregar_usuario(request):
         return redirect('home')
 
     cedula_usuario = form.cleaned_data['cedula']
-
     if Usuarios.objects.filter(cedula=cedula_usuario).exists():
         messages.error(request, "Cédula ya registrada")
         return redirect('home')
 
     nombre_usuario = form.cleaned_data['nombre'].lower()
-
     if nombre_usuario.isnumeric():
         messages.error(request, "No se permiten solo números en el nombre")
         return redirect('home')
 
-    usuario = Usuarios()
-    usuario.cedula = cedula_usuario
-    usuario.nombre = nombre_usuario
+    usuario = Usuarios(cedula=cedula_usuario, nombre=nombre_usuario)
     usuario.save()
     messages.success(request, 'Usuario registrado correctamente')
     return redirect('home')
