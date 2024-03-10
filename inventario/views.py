@@ -71,12 +71,11 @@ def prestamo(request):
 
 
 def devolucion(request):
-    if not request.method == 'POST':
+    if request.method != 'POST':
         messages.error(request, 'Método inválido')
         return redirect('inventario')
 
     form = DevolucionesForm(request.POST)
-
     if not form.is_valid():
         for field, errors in form.errors.items():
             for error in errors:
@@ -84,18 +83,17 @@ def devolucion(request):
         return redirect('home')
 
     try:
-        usuario = Usuarios.objects.get(
-            cedula=form.cleaned_data['cedula_usuario'])
-    except:
+        usuario = Usuarios.objects.get(cedula=form.cleaned_data['cedula_usuario'])
+    except Usuarios.DoesNotExist:
         messages.error(request, 'Cédula de usuario no encontrada')
         return redirect('home')
 
-    objeto = form.cleaned_data['codigo_inventario']
+    objeto_id = form.cleaned_data['codigo_inventario']
 
     try:
         transaccion = Transacciones.objects.get(
-            fecha_devolucion=None, id_inventario=objeto, id_usuario=usuario)
-    except:
+            fecha_devolucion=None, id_inventario=objeto_id, id_usuario=usuario)
+    except Transacciones.DoesNotExist:
         messages.error(request, 'No hay préstamos abiertos de esta persona')
         return redirect('home')
 
@@ -103,17 +101,18 @@ def devolucion(request):
         transaccion.fecha_devolucion = datetime.now()
         transaccion.observaciones = form.cleaned_data["observaciones"]
         transaccion.save()
-        objecto_inventario = Inventario.objects.get(id=objeto.id)
+
+        objecto_inventario = Inventario.objects.get(id=objeto_id)
         objecto_inventario.disponibles += transaccion.cantidad
         objecto_inventario.save()
 
         messages.success(request, 'Elemento devuelto correctamente')
-        return redirect('home')
-    except:
-        messages.error(request, 'Ha ocurrido un error inesperado')
-        return redirect('home')
-
+    except Exception as e:
+        messages.error(request, f'Ha ocurrido un error inesperado: {str(e)}')
+    
     return redirect('home')
+
+
 
 # cerrar sesion
 
