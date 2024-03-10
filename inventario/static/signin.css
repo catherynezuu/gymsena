@@ -1,0 +1,156 @@
+:root {
+  --green-primary: #2cdf62;
+  --green-secondary: #00ca76;
+  --gray-primary: #aaaaaa;
+  --gray-secondary: #d2d0d0;
+  --red-primary: #f52600;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  max-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+  height: 10vh;
+  background-color: var(--green-primary);
+  display: flex;
+  justify-content: space-between;
+  padding-left: 1em;
+  padding-right: 3em;
+}
+
+header div {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+header div img {
+  height: 80%;
+  aspect-ratio: 3/2;
+}
+
+header h1 {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+header > img {
+  height: 60%;
+  align-self: center;
+  aspect-ratio: 1/1;
+}
+
+main {
+  height: 90vh;
+  max-height: 90vh;
+  width: 100%;
+  position: relative;
+}
+
+main::before {
+  content: "";
+  background-image: url("../static/img/login_background.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: blur(1px);
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  
+}
+
+.main-wrapper {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  height: 90vh;
+  max-height: 90vh;
+  width: 100%;
+  place-items: center;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+form {
+  grid-column: 3;
+  background-color: rgba(0, 50, 77, 0.62);
+  display: grid;
+  height: 50%;
+  width: 80%;
+  max-width: 400px;
+  color: white;
+  position: relative;
+}
+
+form h2 {
+  color: white;
+  text-align: center;
+  font-size: 2em;
+  margin: 0;
+  align-self: center;
+}
+
+form div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  align-self: center;
+}
+
+form div label {
+  font-size: 1.5em;
+}
+
+form div input {
+  height: 40px;
+  width: 80%;
+  border-radius: 10px;
+  font-size: 20px;
+  border: 0px;
+}
+
+form button {
+  padding: 10px 30px 10px 30px;
+  align-self: center;
+  justify-self: center;
+  background-color: var(--green-primary);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.5em;
+}
+
+.form_message{
+    position: absolute;
+    top: -30px;
+    width: 100%;
+    background-color: var(--red-primary);
+    font-size: 1.3em;
+    text-transform: capitalize;
+    animation: hide 15s forwards;
+}
+
+@keyframes hide{
+    0%{
+        opacity: 100%;
+    }
+
+    50%{
+        opacity: 70%;
+    }
+
+    100%{
+        opacity: 0%;
+        display: none;
+    }
+}

@@ -43,7 +43,7 @@ header {
   display: flex;
   justify-content: space-between;
   padding-left: 1em;
-  padding-right: 3em;
+  padding-right: 1em;
 }
 
 header div {
@@ -66,6 +66,7 @@ header h1 {
 
 header nav {
   display: flex;
+  gap: 2em;
 }
 
 header nav ul {
@@ -86,6 +87,29 @@ header nav ul a {
   padding: 10px;
   width: 150px;
   border-radius: 5px;
+}
+
+#logout_button {
+  align-self: center;
+  width: 100px;
+  font-size: larger;
+  border-left: 1px solid white;
+  height: 80%;
+  text-align: center;
+  padding-inline: 10px;
+}
+
+#logout_button a {
+  color: white;
+  text-decoration: none;
+  border: 1px solid white;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 5px;
+}
+#logout_button a:hover{
+  border: 1px solid var(--red-primary);
+  color: var(--red-primary);
 }
 
 /* END HEADER */
@@ -518,7 +542,7 @@ table form {
   font-size: 20px;
 }
 
-#form_switch_main > form > div select{
+#form_switch_main > form > div select {
   font-size: 20px;
 }
 
@@ -671,7 +695,7 @@ table form {
   font-size: 1.3em;
 }
 
-.filter_form_top{
+.filter_form_top {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -679,16 +703,16 @@ table form {
   text-align: center;
 }
 
-#filter_form h2{
+#filter_form h2 {
   margin: 0;
 }
 
-#filter_form section{
+#filter_form section {
   display: grid;
   row-gap: 2em;
 }
 
-#filter_form section > :not(:last-child){
+#filter_form section > :not(:last-child) {
   display: grid;
   place-items: center;
   grid-template-columns: 1fr 1fr 40px;
@@ -703,20 +727,20 @@ table form {
   font-size: 20px;
 }
 
-#filter_form span{
+#filter_form span {
   display: none;
   height: 100%;
   font-size: 30px;
   color: red;
 }
 
-#filter_form section > :last-child{
+#filter_form section > :last-child {
   display: flex;
   justify-content: space-evenly;
   margin-bottom: 1em;
 }
 
-#filter_form section :last-child button{
+#filter_form section :last-child button {
   font-size: large;
   border-radius: 5px;
   border: 2px solid var(--gray-primary);
@@ -728,12 +752,12 @@ table form {
   align-items: center;
 }
 
-#filter_form section :last-child :first-child{
+#filter_form section :last-child :first-child {
   background-color: var(--red-primary);
   width: 30%;
 }
 
-#filter_form section :last-child :last-child{
+#filter_form section :last-child :last-child {
   background-color: var(--green-primary);
   width: 60%;
 }

@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
@@ -7,16 +9,16 @@ from django.db import IntegrityError
 from django.utils import timezone
 from .forms import *
 from .models import *
-from datetime import datetime
 
 
 # pagina principal y prestamos
+@login_required
 def home(request):
     transacciones_info = Transacciones.objects.filter(fecha_devolucion=None)
     cedulas = Usuarios.objects.all()
     return render(request, 'home.html', {'formPrestamos': PrestamosForm, 'formDevoluciones': DevolucionesForm, 'formRegistroUsuario': RegistroForm, 'transacciones': transacciones_info, 'cedulas': cedulas})
 
-
+@login_required
 def prestamo(request):
     if request.method != 'POST':
         messages.error(request, 'Método inválido')
@@ -72,7 +74,7 @@ def prestamo(request):
 
     return redirect('home')
 
-
+@login_required
 def devolucion(request):
     if request.method != 'POST':
         messages.error(request, 'Método inválido')
@@ -118,14 +120,13 @@ def devolucion(request):
 
 
 # cerrar sesion
-
-
 def signout(request):
     logout(request)
-    return redirect('')
+    return redirect('signin')
 
 
 # iniciar sesion
+
 def signin(request):
     if request.method == 'GET':
         return render(request, 'signin.html', {'form': AuthenticationForm})
@@ -141,6 +142,7 @@ def signin(request):
 
 
 # categorias
+@login_required
 def categorias(request):
     form_agregar = AgregarCategoriaForm()
     form_actualizar = ActualizarCategoriaForm()
@@ -154,7 +156,7 @@ def categorias(request):
 
     return render(request, 'categorias.html', context)
 
-
+@login_required
 def agregar_categoria(request):
     if request.method != 'POST':
         messages.error(request, 'Método inválido')
@@ -179,7 +181,7 @@ def agregar_categoria(request):
         messages.success(request, 'Categoría agregada correctamente')
     return redirect('categorias')
 
-
+@login_required
 def actualizar_categoria(request):
     if request.method != 'POST':
         messages.error(request, 'Método inválido')
@@ -209,7 +211,7 @@ def actualizar_categoria(request):
         messages.error(request, 'Ha ocurrido un error inesperado')
     return redirect('categorias')
 
-
+@login_required
 def eliminar_categoria(request):
     if request.method == 'POST':
         registro_id = request.POST.get('id')
@@ -228,6 +230,7 @@ def eliminar_categoria(request):
 
 
 # agregar usuario
+@login_required
 def agregar_usuario(request):
     if request.method != 'POST':
         messages.error(request, "Método inválido")
@@ -257,6 +260,7 @@ def agregar_usuario(request):
 
 
 # inventario
+@login_required
 def inventario(request):
     inventario_info = Inventario.objects.all()
     context = {
@@ -266,7 +270,7 @@ def inventario(request):
     }
     return render(request, 'inventario.html', context)
 
-
+@login_required
 def agregar_inventario(request):
     if request.method != 'POST':
         messages.error(request, 'Método inválido')
@@ -303,7 +307,7 @@ def agregar_inventario(request):
     messages.success(request, 'Elemento agregado correctamente')
     return redirect('inventario')
 
-
+@login_required
 def actualizar_inventario(request):
     if request.method != 'POST':
         messages.error(request, 'Método inválido')
@@ -355,7 +359,7 @@ def actualizar_inventario(request):
     messages.success(request, 'Elemento actualizado correctamente')
     return redirect('inventario')
 
-
+@login_required
 def eliminar_inventario(request):
     if request.method == 'POST':
         registro_id = request.POST.get('id')
@@ -369,7 +373,7 @@ def eliminar_inventario(request):
             messages.error(request, 'Ha ocurrido un error inesperado')
     return redirect('inventario')
 
-
+@login_required
 def historial(request):
     transacciones_info = Transacciones.objects.all()
     return render(request, 'historial.html', {'transacciones': transacciones_info})
