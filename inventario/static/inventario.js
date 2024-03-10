@@ -1,20 +1,29 @@
 document.addEventListener("DOMContentLoaded", function () {
   const abrirModal = document.getElementById("abrir_modal");
-
-  abrirModal.addEventListener("click", function () {
-    document.getElementById("modal-agregar").style.display = "flex";
-  });
-
+  const modalAgregar = document.getElementById("modal-agregar");
   const modalConfirmacion = document.getElementById("modal_confirmacion");
   const confirmarEliminacionBtn = document.getElementById(
     "confirmar_eliminacion_btn"
   );
   const eliminarBtns = document.querySelectorAll(".table_delete_button");
+  const updateButtons = document.querySelectorAll(".table_update_button");
+  const modalActualizar = document.getElementById("modal_actualizar");
+  const buscarInventarioInput = document.getElementById(
+    "buscar_inventario_input"
+  );
+  const limpiarBtn = document.getElementById("boton_limpiar_busqueda");
+  const filasTabla = document.querySelectorAll("tbody tr");
 
+  // Función para abrir el modal de agregar elemento
+  abrirModal.addEventListener("click", function () {
+    modalAgregar.style.display = "flex";
+  });
+
+  // Función para mostrar modal de confirmación antes de eliminar un elemento
   eliminarBtns.forEach(function (btn) {
     btn.addEventListener("click", function () {
-      var row = this.closest("tr");
-      var registroId = row.getAttribute("data-registro-id");
+      const row = this.closest("tr");
+      const registroId = row.getAttribute("data-registro-id");
       const eliminarForm = document.getElementById(
         "eliminar-form-" + registroId
       );
@@ -28,8 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  var updateButtons = document.querySelectorAll(".table_update_button");
-
+  // Función para procesar botones de actualizar elementos
   updateButtons.forEach(function (button) {
     button.addEventListener("click", function () {
       const row = this.closest("tr");
@@ -59,20 +67,16 @@ document.addEventListener("DOMContentLoaded", function () {
       nombreInput.value = nombre;
       codigoInput.value = codigo;
       selectInput.value = categoria;
-      stockInput.value = stock
+      stockInput.value = stock;
 
-      document.getElementById("modal_actualizar").style.display = "flex";
+      modalActualizar.style.display = "flex";
     });
   });
 
-  const buscarInventarioInput = document.getElementById(
-    "buscar_inventario_input"
-  );
-  const limpiarBtn = document.getElementById("boton_limpiar_busqueda");
-  const filasTabla = document.querySelectorAll("tbody tr");
-
+  // Función para filtrar la tabla de inventario
   function filtrarTabla() {
-    var filtro = buscarInventarioInput.value.toLowerCase();
+    const filtro = buscarInventarioInput.value.toLowerCase();
+
     filasTabla.forEach(function (fila) {
       const textoFila = fila
         .querySelector("td:first-child")
