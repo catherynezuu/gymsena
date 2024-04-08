@@ -2,7 +2,7 @@
   --green-primary: #2cdf62;
   --green-secondary: #00ca76;
   --gray-primary: #aaaaaa;
-  --gray-secondary: #d2d0d0;
+  --gray-secondary: #dedede;
   --red-primary: #f52600;
 }
 
@@ -27,12 +27,14 @@ button:hover,
 a:hover {
   filter: brightness(110%);
   transform: scale(1.05);
+  cursor: pointer;
 }
 
 button:active,
 close:active,
 a:active {
   filter: brightness(70%);
+  cursor: pointer;
 }
 
 /* HEADER */
@@ -44,6 +46,7 @@ header {
   justify-content: space-between;
   padding-left: 1em;
   padding-right: 1em;
+  box-shadow: 0px 1px 3px 1px #9d9d9d;
 }
 
 header div {
@@ -536,7 +539,7 @@ table form {
 }
 
 #form_switch_main > form > div input {
-  border: 3px solid var(--gray-secondary);
+  border: 3px solid var(--gray-primary);
   border-radius: 10px;
   height: calc(100% - 6px);
   font-size: 20px;
@@ -544,12 +547,12 @@ table form {
 
 #form_switch_main > form > div select {
   font-size: 20px;
-}
-
-#form_switch_main > form > div :nth-child(2):not(input) {
-  border: 3px solid var(--gray-secondary);
+  border: 3px solid var(--gray-primary);
   border-radius: 10px;
   height: 100%;
+}
+#form_switch_main > form > div > * {
+  max-width: 100%;
 }
 
 #prestamos_form {

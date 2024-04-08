@@ -64,7 +64,7 @@
           </thead>
           <tbody>
             {% for elemento in transacciones %}
-            <tr>
+            <tr data-element-id="{{ elemento.id_inventario.id }}">
               <td>{{ elemento.id_inventario.nombre }}</td>
               <td>{{ elemento.id_inventario.codigo }}</td>
               <td>{{ elemento.id_usuario.cedula }}</td>
