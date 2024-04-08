@@ -504,6 +504,7 @@ table form {
 .button_switch_active {
   background-color: var(--green-secondary);
   color: white;
+  transition: background-color .3s, color .3s;
 }
 .button_switch_deactive {
   background-color: white;
