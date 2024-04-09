@@ -42,6 +42,7 @@ header h1 {
   margin: 0;
   display: flex;
   align-items: center;
+  color: white;
 }
 
 header > img {
