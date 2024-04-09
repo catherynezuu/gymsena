@@ -13,6 +13,21 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+button:hover,
+.close:hover,
+a:hover {
+  filter: brightness(110%);
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+button:active,
+close:active,
+a:active {
+  filter: brightness(70%);
+  cursor: pointer;
+}
+
 header {
   height: 10vh;
   background-color: var(--green-primary);
