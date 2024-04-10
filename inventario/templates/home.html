@@ -57,8 +57,8 @@
             <tr>
               <th>Cédula</th>
               <th>Nombre</th>
+              <th>Código Formación</th>
               <th>Elemento</th>
-              <th>Código Elemento</th>
               <th>Fecha Préstamo</th>
             </tr>
           </thead>
@@ -67,8 +67,8 @@
             <tr data-element-id="{{ elemento.id_inventario.id }}">
               <td>{{ elemento.id_usuario.cedula }}</td>
               <td>{{ elemento.id_usuario }}</td>
+              <td>{{ elemento.id_usuario.formacion }}</td>
               <td>{{ elemento.id_inventario.nombre }}</td>
-              <td>{{ elemento.id_inventario.codigo }}</td>
               <td>{{ elemento.fecha_prestamo|date:"h:i A, d/m/Y"}}</td>
             </tr>
             {% endfor %}

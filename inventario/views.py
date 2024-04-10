@@ -255,8 +255,12 @@ def agregar_usuario(request):
     if nombre_usuario.isnumeric():
         messages.error(request, "No se permiten solo números en el nombre")
         return redirect('home')
+    formacion_usuario = form.cleaned_data['formacion']
+    if formacion_usuario.isnumeric():
+        messages.error(request, "No se permiten solo números en la titularidad")
+        return redirect('home')
 
-    usuario = Usuarios(cedula=cedula_usuario, nombre=nombre_usuario)
+    usuario = Usuarios(cedula=cedula_usuario, nombre=nombre_usuario, formacion=formacion_usuario)
     usuario.save()
     messages.success(request, 'Usuario registrado correctamente')
     return redirect('home')

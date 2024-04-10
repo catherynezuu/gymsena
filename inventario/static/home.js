@@ -19,14 +19,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const filtro = buscarCategoriaInput.value.toLowerCase();
 
     filasTabla.forEach(function (fila) {
-      const textoFila = fila.cells[0].textContent.toLowerCase();
-      const codigoFila = fila.cells[1].textContent;
+      const textoFila = fila.cells[0].textContent;
+      const codigoFila = fila.cells[1].textContent.toLowerCase();
       const cedulaFila = fila.cells[2].textContent;
       const nombreFila = fila.cells[3].textContent.toLowerCase();
 
       if (
         textoFila.includes(filtro) ||
-        codigoFila.includes(filtro) ||
+        codigoFila.includes(filtro) ||  
         cedulaFila.includes(filtro) ||
         nombreFila.includes(filtro)
       ) {
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Función para copiar la cédula al campo de entrada
   function copiarCedula(event) {
     const fila = event.currentTarget;
-    const cedula = fila.cells[2].textContent.trim(); // Obtener el texto de la cédula de la fila clicada
+    const cedula = fila.cells[0].textContent.trim(); // Obtener el texto de la cédula de la fila clicada
     cedulaInput.value = cedula; // Copiar la cédula al campo de entrada
   }
 

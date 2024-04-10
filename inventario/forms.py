@@ -40,4 +40,7 @@ class ActualizarCategoriaForm(forms.Form):
 class RegistroForm(forms.ModelForm):
     class Meta:
         model = Usuarios
-        fields = ['cedula', 'nombre']
+        fields = ['cedula', 'nombre', 'formacion']
+        labels={
+            'formación': 'titular'
+        }

@@ -22,6 +22,7 @@ class Inventario(models.Model):
 class Usuarios(models.Model): 
     cedula=models.IntegerField()
     nombre=models.CharField(max_length=100)
+    formacion=models.CharField(max_length=150)
 
     def __str__(self):
         return self.nombre
