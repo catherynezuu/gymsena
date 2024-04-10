@@ -126,7 +126,6 @@ def signout(request):
 
 
 # iniciar sesion
-
 def signin(request):
     if request.method == 'GET':
         return render(request, 'signin.html', {'form': AuthenticationForm})
@@ -198,6 +197,10 @@ def actualizar_categoria(request):
     nombre_categoria = form.cleaned_data['nombre'].lower()
     if any(map(str.isdigit, nombre_categoria)):
         messages.error(request, 'Nombre inválido, no se permiten números')
+        return redirect('categorias')
+    
+    if Categoria.objects.exclude(id=id_categoria).filter(nombre=nombre_categoria).exists():
+        messages.error(request, 'Error, nombre ya existente, intente con otro')
         return redirect('categorias')
 
     try:

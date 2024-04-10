@@ -4,14 +4,14 @@ from .models import Inventario, Categoria, Usuarios
 
 class PrestamosForm(forms.Form):
     cedula_usuario = IntegerField(
-        label='Cedula del usuario', widget=forms.NumberInput(attrs={'list': 'cedulas', 'autocomplete': 'off'}), min_value=1000000)
+        label='Cedula del usuario', widget=forms.NumberInput(attrs={'list': 'cedulas', 'autocomplete': 'off'}), min_value=10000)
     nombre_elemento = ModelChoiceField(
         queryset=Inventario.objects.all(), label="Nombre elemento", empty_label="")
     cantidad = IntegerField(label="Cantidad", min_value=1, widget=forms.NumberInput(attrs={'min': '1'}))
 
 class DevolucionesForm(forms.Form):
     cedula_usuario = IntegerField(
-        label='Cedula del usuario', widget=forms.NumberInput(attrs={'list': 'cedulas', 'autocomplete': 'off'}), min_value=1000000)
+        label='Cedula del usuario', widget=forms.NumberInput(attrs={'list': 'cedulas', 'autocomplete': 'off'}), min_value=100000)
     codigo_inventario = ModelChoiceField(
         queryset=Inventario.objects.all(), label="Nombre elemento", empty_label="")
     observaciones = CharField(label='Observaciones', max_length=200, required=False)
