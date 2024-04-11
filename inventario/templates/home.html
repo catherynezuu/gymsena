@@ -25,7 +25,7 @@
         </form>
         <datalist id="cedulas">
           {% for cedula in cedulas %}
-            <option value="{{ cedula.cedula}}">{{cedula.nombre}}</option>
+          <option value="{{ cedula.cedula}}">{{cedula.nombre}}</option>
           {% endfor %}
         </datalist>
       </div>
@@ -57,19 +57,25 @@
             <tr>
               <th>Cédula</th>
               <th>Nombre</th>
-              <th>Código Formación</th>
+              <th>Titularidad</th>
               <th>Elemento</th>
               <th>Fecha Préstamo</th>
+              <th>Fecha Estimada Devolución</th>
             </tr>
           </thead>
           <tbody>
             {% for elemento in transacciones %}
-            <tr data-element-id="{{ elemento.id_inventario.id }}">
+            {% if elemento.retrasado %}
+              <tr class="home_section_table_tarde" data-element-id="{{ elemento.id_inventario.id }}">
+            {% else %}
+              <tr data-element-id="{{ elemento.id_inventario.id }}">
+            {% endif %}
               <td>{{ elemento.id_usuario.cedula }}</td>
               <td>{{ elemento.id_usuario }}</td>
               <td>{{ elemento.id_usuario.formacion }}</td>
               <td>{{ elemento.id_inventario.nombre }}</td>
-              <td>{{ elemento.fecha_prestamo|date:"h:i A, d/m/Y"}}</td>
+              <td>{{ elemento.fecha_prestamo|date:"d/m/Y, h:i A"}}</td>
+              <td>{{ elemento.fecha_estimada|date:"d/m/Y" }}</td>
             </tr>
             {% endfor %}
           </tbody>

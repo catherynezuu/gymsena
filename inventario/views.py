@@ -15,8 +15,12 @@ from .models import *
 @login_required
 def home(request):
     transacciones_info = Transacciones.objects.filter(fecha_devolucion=None)
+
+    for transaccion in transacciones_info:
+        transaccion.retrasado = transaccion.fecha_estimada.date() < timezone.localtime().date()
+
     cedulas = Usuarios.objects.all()
-    return render(request, 'home.html', {'formPrestamos': PrestamosForm, 'formDevoluciones': DevolucionesForm, 'formRegistroUsuario': RegistroForm, 'transacciones': transacciones_info, 'cedulas': cedulas})
+    return render(request, 'home.html', {'formPrestamos': PrestamosForm, 'formDevoluciones': DevolucionesForm, 'formRegistroUsuario': AgregarUsuarioForm, 'transacciones': transacciones_info, 'cedulas': cedulas})
 
 @login_required
 def prestamo(request):
@@ -34,6 +38,7 @@ def prestamo(request):
     nombre_elemento = form.cleaned_data["nombre_elemento"]
     cedula_usuario = form.cleaned_data['cedula_usuario']
     cantidad_form = form.cleaned_data['cantidad']
+    fecha_estimada = form.cleaned_data['fecha_estimada']
 
     try:
         objecto_inventario = Inventario.objects.get(nombre=nombre_elemento)
@@ -61,7 +66,7 @@ def prestamo(request):
         pass
 
     objeto_transaccion = Transacciones(
-        id_inventario=objecto_inventario, id_usuario=usuario, cantidad=cantidad_form)
+        id_inventario=objecto_inventario, id_usuario=usuario, cantidad=cantidad_form, fecha_estimada=fecha_estimada)
 
     try:
         objeto_transaccion.save()
@@ -239,7 +244,7 @@ def agregar_usuario(request):
         messages.error(request, "Método inválido")
         return redirect('home')
 
-    form = RegistroForm(request.POST)
+    form = AgregarUsuarioForm(request.POST)
     if not form.is_valid():
         for field, errors in form.errors.items():
             for error in errors:

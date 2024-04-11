@@ -4,6 +4,7 @@
   --gray-primary: #aaaaaa;
   --gray-secondary: #dedede;
   --red-primary: #f52600;
+  --red-secondary: #fb6257;
 }
 
 html {
@@ -111,7 +112,7 @@ header nav ul a {
   padding-bottom: 5px;
   border-radius: 5px;
 }
-#logout_button a:hover{
+#logout_button a:hover {
   border: 1px solid var(--red-primary);
   color: var(--red-primary);
 }
@@ -505,7 +506,7 @@ table form {
 .button_switch_active {
   background-color: var(--green-secondary);
   color: white;
-  transition: background-color .3s, color .3s;
+  transition: background-color 0.3s, color 0.3s;
 }
 .button_switch_deactive {
   background-color: white;
@@ -600,9 +601,14 @@ table form {
   align-items: top;
 }
 
+.home_section_table_tarde{
+  background-color: var(--red-secondary);
+}
+
 #buscar_home_container {
   width: 70%;
 }
+
 
 /* END HOME */
 
@@ -812,8 +818,7 @@ table form {
   overflow: auto;
 }
 
-
-#imprimir_historial{
+#imprimir_historial {
   height: 50px;
   width: 150px;
   font-size: large;

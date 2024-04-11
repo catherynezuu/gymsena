@@ -8,12 +8,12 @@
       <section>
         <div>
           <label for="input_cedula">Documento</label>
-          <input type="number" id="input_cedula" min="1"/>
+          <input type="number" id="input_cedula" min="1" />
           <span id="clean_document">&times;</span>
         </div>
         <div>
           <label for="input_fecha_fin">Fecha Inicio:</label>
-          <input type="date" id="input_fecha_inicio" max="today"/>
+          <input type="date" id="input_fecha_inicio" max="today" />
           <span id="clean_start">&times;</span>
         </div>
         <div>
@@ -45,7 +45,7 @@
         </thead>
         <tbody>
           {% for elemento in transacciones %}
-          <tr data-inicio='{{ elemento.fecha_prestamo|date:"Y-m-d" }}'>
+          <tr data-inicio='{{ elemento.retrasado }}'>
             <td>{{ elemento.id_usuario }}</td>
             <td>{{ elemento.id_usuario.cedula }}</td>
             <td>{{ elemento.id_inventario }}</td>
