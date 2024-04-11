@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   function toggleForm(formToShow, formToHide, activeBtn, deactiveBtn) {
-    formToShow.style.display = "grid";
+    formToShow.style.display = "flex";
     formToHide.style.display = "none";
 
     activeBtn.classList.remove("button_switch_deactive");

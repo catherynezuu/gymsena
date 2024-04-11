@@ -525,11 +525,71 @@ table form {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 350px;
+  height: 400px;
   font-size: 1.3em;
 }
 
-#form_switch_main form > button {
+#form_switch_main > form > div > * {
+  max-width: 100%;
+}
+#form_switch_main > form {
+  width: 90%;
+  height: 90%;
+}
+
+#prestamos_form {
+  display: flex;
+  flex-direction: column;
+}
+
+#devoluciones_form {
+  display: none;
+  flex-direction: column;
+}
+
+.form_siwtch_main_top {
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.form_siwtch_main_top > * {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  height: 50px;
+}
+
+.form_siwtch_main_top label {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.form_siwtch_main_top input {
+  border: 3px solid var(--gray-primary);
+  border-radius: 10px;
+  height: calc(100% - 6px);
+  font-size: 20px;
+  width: 100%;
+}
+
+.form_siwtch_main_top select {
+  font-size: 20px;
+  border: 3px solid var(--gray-primary);
+  border-radius: 10px;
+  height: 100%;
+  width: 100%;
+}
+
+.form_switch_main_bottom {
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#form_switch_main form button {
   width: 50%;
   place-self: center;
   height: 100%;
@@ -539,48 +599,7 @@ table form {
   color: var(--green-primary);
   border: 3px solid var(--gray-primary);
   border-radius: 10px;
-}
-
-#form_switch_main > form > div input {
-  border: 3px solid var(--gray-primary);
-  border-radius: 10px;
-  height: calc(100% - 6px);
-  font-size: 20px;
-}
-
-#form_switch_main > form > div select {
-  font-size: 20px;
-  border: 3px solid var(--gray-primary);
-  border-radius: 10px;
-  height: 100%;
-}
-#form_switch_main > form > div > * {
-  max-width: 100%;
-}
-
-#prestamos_form {
-  display: grid;
-  height: 80%;
-  row-gap: 2em;
-  width: 90%;
-  grid-template-rows: repeat(4, 1fr);
-}
-
-#devoluciones_form {
-  display: none;
-  height: 80%;
-  row-gap: 2em;
-  width: 90%;
-}
-
-#form_switch_main form div {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-}
-
-#form_switch_main form div label {
-  display: flex;
-  align-items: center;
+  height: 50px;
 }
 
 #home_section_table {
@@ -601,14 +620,13 @@ table form {
   align-items: top;
 }
 
-.home_section_table_tarde{
+.home_section_table_tarde {
   background-color: var(--red-secondary);
 }
 
 #buscar_home_container {
   width: 70%;
 }
-
 
 /* END HOME */
 
