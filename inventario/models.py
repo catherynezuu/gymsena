@@ -31,8 +31,8 @@ class Transacciones(models.Model):
     id_inventario=models.ForeignKey(Inventario,on_delete=models.CASCADE)
     id_usuario=models.ForeignKey(Usuarios,on_delete=models.CASCADE)
     fecha_prestamo=models.DateTimeField(auto_now_add=True)
-    fecha_estimada=models.DateTimeField()
-    fecha_devolucion=models.DateField(null=True, blank=True)
+    fecha_estimada=models.DateField()
+    fecha_devolucion=models.DateTimeField(null=True, blank=True)
     observaciones=models.CharField(max_length=200, null=True, blank=True)
     cantidad=models.IntegerField()
 

@@ -16,7 +16,7 @@ def home(request):
     transacciones_info = Transacciones.objects.filter(fecha_devolucion=None)
 
     for transaccion in transacciones_info:
-        transaccion.retrasado = transaccion.fecha_estimada.date() < timezone.localtime().date()
+        transaccion.retrasado = transaccion.fecha_estimada < timezone.localtime().date()
 
     cedulas = Usuarios.objects.all()
     return render(request, 'home.html', {'formPrestamos': PrestamosForm, 'formDevoluciones': DevolucionesForm, 'formRegistroUsuario': AgregarUsuarioForm, 'transacciones': transacciones_info, 'cedulas': cedulas})

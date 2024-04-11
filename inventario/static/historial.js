@@ -38,8 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       fila.style.display = mostrar ? "" : "none";
     });
-    console.log(campoFechaInicio.value);
-    console.log(campoFechaFin.value);
   };
 
   // Función para imprimir la tabla

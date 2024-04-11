@@ -45,7 +45,7 @@
         </thead>
         <tbody>
           {% for elemento in transacciones %}
-          <tr data-inicio='{{ elemento.retrasado }}'>
+          <tr data-inicio='{{ elemento.fecha_prestamo|date:"Y-m-d" }}'>
             <td>{{ elemento.id_usuario }}</td>
             <td>{{ elemento.id_usuario.cedula }}</td>
             <td>{{ elemento.id_inventario }}</td>
