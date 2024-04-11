@@ -38,6 +38,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       fila.style.display = mostrar ? "" : "none";
     });
+    console.log(campoFechaInicio.value);
+    console.log(campoFechaFin.value);
   };
 
   // Función para imprimir la tabla
@@ -65,24 +67,34 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       ventana.document.write("<div><span>Cédula:</span>" + "Todos" + "</div>");
     }
+
     if (desde) {
       ventana.document.write("<div><span>Desde:</span>" + desde + "</div>");
     } else {
       ventana.document.write(
         "<div><span>Desde:</span>" +
-          document.querySelector(".table_container tbody tr:first-child").getAttribute("data-inicio") +
+          document
+            .querySelector(".table_container tbody tr:first-child")
+            .getAttribute("data-inicio") +
           "</div>"
       );
     }
-    if (hasta) {
+
+    if (
+      (desde && !hasta) ||
+      (!hasta && desde > new Date().toLocaleDateString("en-CA"))
+    ) {
+      ventana.document.write("<div><span>Hasta:</span>" + desde + "</div>");
+    } else if (hasta) {
       ventana.document.write("<div><span>Hasta:</span>" + hasta + "</div>");
     } else {
       ventana.document.write(
         "<div><span>Hasta:</span>" +
-          new Date().toLocaleDateString("es-ES") +
+          new Date().toLocaleDateString("en-CA") +
           "</div>"
       );
     }
+    
     ventana.document.write("</div>");
     ventana.document.write(tabla.innerHTML);
     ventana.document.write("</body></html>");
@@ -96,7 +108,12 @@ document.addEventListener("DOMContentLoaded", function () {
   botonImprimir.addEventListener("click", () => {
     const tabla = document.querySelector(".table_container");
     filtrarTabla();
-    imprimirTabla(tabla, campoCedula.value, campoFechaInicio.value, campoFechaFin.value);
+    imprimirTabla(
+      tabla,
+      campoCedula.value,
+      campoFechaInicio.value,
+      campoFechaFin.value
+    );
   });
 
   // Evento submit en el formulario de filtro
@@ -120,14 +137,26 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   // Eventos de limpieza
-  limpiarDocumento.addEventListener("click", () => limpiarCampo(campoCedula, limpiarDocumento));
-  limpiarInicio.addEventListener("click", () => limpiarCampo(campoFechaInicio, limpiarInicio));
-  limpiarFin.addEventListener("click", () => limpiarCampo(campoFechaFin, limpiarFin));
+  limpiarDocumento.addEventListener("click", () =>
+    limpiarCampo(campoCedula, limpiarDocumento)
+  );
+  limpiarInicio.addEventListener("click", () =>
+    limpiarCampo(campoFechaInicio, limpiarInicio)
+  );
+  limpiarFin.addEventListener("click", () =>
+    limpiarCampo(campoFechaFin, limpiarFin)
+  );
 
   // Eventos de entrada para mostrar u ocultar botones de limpieza
-  campoCedula.addEventListener("input", () => mostrarBoton(campoCedula, limpiarDocumento));
-  campoFechaInicio.addEventListener("input", () => mostrarBoton(campoFechaInicio, limpiarInicio));
-  campoFechaFin.addEventListener("input", () => mostrarBoton(campoFechaFin, limpiarFin));
+  campoCedula.addEventListener("input", () =>
+    mostrarBoton(campoCedula, limpiarDocumento)
+  );
+  campoFechaInicio.addEventListener("input", () =>
+    mostrarBoton(campoFechaInicio, limpiarInicio)
+  );
+  campoFechaFin.addEventListener("input", () =>
+    mostrarBoton(campoFechaFin, limpiarFin)
+  );
 
   // Evento click en el botón de limpiar formulario
   const limpiarFormulario = document.getElementById("clean_form");
