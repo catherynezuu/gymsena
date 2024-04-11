@@ -771,8 +771,10 @@ table form {
   width: 70vw;
   height: 90vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 2em;
 }
 
 #historial_section_table .table_container {
@@ -808,6 +810,17 @@ table form {
   border-radius: 5px;
   z-index: 3;
   overflow: auto;
+}
+
+
+#imprimir_historial{
+  height: 50px;
+  width: 150px;
+  font-size: large;
+  background-color: var(--green-primary);
+  border-radius: 5px;
+  border: 2px solid var(--gray-primary);
+  color: white;
 }
 
 /* END HISTORIAL */
