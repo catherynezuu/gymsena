@@ -13,13 +13,13 @@ from .models import *
 # pagina principal y prestamos
 @login_required
 def home(request):
-    transacciones_info = Transacciones.objects.filter(fecha_devolucion=None)
+    transacciones_abiertas = Transacciones.objects.filter(fecha_devolucion=None)
 
-    for transaccion in transacciones_info:
+    for transaccion in transacciones_abiertas:
         transaccion.retrasado = transaccion.fecha_estimada < timezone.localtime().date()
 
     cedulas = Usuarios.objects.all()
-    return render(request, 'home.html', {'formPrestamos': PrestamosForm, 'formDevoluciones': DevolucionesForm, 'formRegistroUsuario': AgregarUsuarioForm, 'transacciones': transacciones_info, 'cedulas': cedulas})
+    return render(request, 'home.html', {'formPrestamos': PrestamosForm, 'formDevoluciones': DevolucionesForm, 'formRegistroUsuario': AgregarUsuarioForm, 'transacciones': transacciones_abiertas, 'cedulas': cedulas})
 
 @login_required
 def prestamo(request):
@@ -28,11 +28,12 @@ def prestamo(request):
         return redirect('home')
 
     form = PrestamosForm(request.POST)
+    
     if not form.is_valid():
         for field, errors in form.errors.items():
             for error in errors:
                 messages.error(request, f'{field}: {error}')
-        return redirect('inventario')
+        return redirect('home')
 
     nombre_elemento = form.cleaned_data["nombre_elemento"]
     cedula_usuario = form.cleaned_data['cedula_usuario']
